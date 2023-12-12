@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { Request, Response} from 'express';
+import { connectDb, createTables } from './database/DbManager';
 import learningPackageRoutes from "./routes/LearningPackageRoutes";
 import learningFactRoutes from "./routes/LearningFactRoutes";
 import statisticsRoutes from "./routes/StatisticsRoutes";
@@ -10,7 +11,8 @@ app.use(learningPackageRoutes)
 app.use(learningFactRoutes)
 app.use(statisticsRoutes)
 
-
+connectDb();
+createTables().then(r => {});
 app.get("/api/lesson-list", (req: Request, res: Response) => {
     res.send("Ok !")
 });
