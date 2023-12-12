@@ -4,9 +4,9 @@ export class LearningPackage extends Model {
     declare packageId: number;
     declare packageName: string;
     declare packageDescription: string;
-    declare packageFavourite: boolean;
     declare packageProgress: number;
     declare packageDifficulty: number;
+    declare packageFavourite: boolean;
 }
 
 export class LearningFact extends Model {

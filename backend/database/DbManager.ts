@@ -42,7 +42,6 @@ export async function createTables(){
             type: DataTypes.INTEGER,
             allowNull: false
         },
-
         packageFavourite: {
             type: DataTypes.BOOLEAN,
             allowNull: false
@@ -62,7 +61,6 @@ export async function createTables(){
                 model: LearningPackage,
                 key: 'packageId'
             }
-
         },
         factQuestion: {
             type: DataTypes.STRING,

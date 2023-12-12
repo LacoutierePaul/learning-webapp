@@ -13,11 +13,11 @@ app.use(statisticsRoutes)
 
 connectDb();
 createTables().then(r => {});
-app.get("/api/lesson-list", (req: Request, res: Response) => {
+app.get("/api/liveness", (req: Request, res: Response) => {
     res.send("Ok !")
 });
-
 
 app.listen(3000, () => {
     console.log(`Running on port 3000`);
 });
+
