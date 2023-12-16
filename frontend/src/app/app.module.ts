@@ -8,19 +8,31 @@ import {HttpClientModule} from "@angular/common/http";
 import { NavbarComponent } from './navbar/navbar.component';
 import { StudyPageComponent } from './study-page/study-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { LearningPackageCardComponent } from './learning-package-card/learning-package-card.component';
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     StudyPageComponent,
-    HomePageComponent
+    HomePageComponent,
+    LearningPackageCardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
