@@ -42,7 +42,7 @@ export async function createTables(){
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        packageFavourite: {
+        packageFavorite: {
             type: DataTypes.BOOLEAN,
             allowNull: false
         }

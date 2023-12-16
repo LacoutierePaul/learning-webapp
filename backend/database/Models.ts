@@ -6,7 +6,7 @@ export class LearningPackage extends Model {
     declare packageDescription: string;
     declare packageProgress: number;
     declare packageDifficulty: number;
-    declare packageFavourite: boolean;
+    declare packageFavorite: boolean;
 }
 
 export class LearningFact extends Model {
