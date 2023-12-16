@@ -15,5 +15,5 @@ export interface LearningPackage  {
    packageDescription: string;
    packageProgress: number;
    packageDifficulty: number;
-   packageFavourite: boolean;
+   packageFavorite: boolean;
 }
