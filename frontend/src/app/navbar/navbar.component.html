@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Home</a>
+
+  <ul class="navbar-nav mr-auto">
+    <!-- On crée le premier item Dropdown File -->
+    <!-- Item study now-->
+    <li class="nav-item">
+      <a class="nav-link" href="#">Study Now</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="#">Select New Course</a>
+    </li>
+
+    <!-- Item - “Progresses Statistics” menu-item-->
+    <li class="nav-item">
+      <a class="nav-link" href="#">Progresses Statistics</a>
+    </li>
+
+
+    <li ngbDropdown class="nav-item">
+      <a ngbDropdownToggle id="fileMenu" class="nav-link">File</a>
+      <div ngbDropdownMenu aria-labelledby="fileMenu">
+        <!-- On y ajoute les items-->
+        <a class="dropdown-item" routerLink="/">Lesson Edit Form</a>
+        <a class="dropdown-item" href="#">New</a>
+        <a class="dropdown-item" href="#">Export...</a>
+      </div>
+
+    <li ngbDropdown class="nav-item">
+      <a ngbDropdownToggle id="helpMenu" class="nav-link" href="#">Help</a>
+      <div ngbDropdownMenu aria-labelledby="helpMenu">
+        <!-- On y ajoute les items-->
+        <a class="dropdown-item" href="#">Glossary</a>
+        <a class="dropdown-item" href="#">Documentation</a>
+        <a class="dropdown-item" href="#">About</a>
+      </div>
+    </li>
+
+
+  </ul>
+</nav>
