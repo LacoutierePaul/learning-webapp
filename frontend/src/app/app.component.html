@@ -1,2 +1,21 @@
 <app-navbar></app-navbar>
+<ngb-carousel>
+  <ng-template ngbSlide>
+    <div class="picsum-img-wrapper">
+
+    <img src="https://picsum.photos/id/5/900/500/" alt="First slide" >
+      </div>
+    <div class="carousel-caption">
+      <h3>Study your course</h3>
+      <p>You can study all the course you selected to improve your knowledge</p>
+    </div>
+  </ng-template>
+  <ng-template ngbSlide>
+    <img src="https://picsum.photos/id/4/900/500/" alt="Second slide" >
+    <div class="carousel-caption">
+      <h3>Select new course</h3>
+      <p>Select new course on the subject of your choice</p>
+    </div>
+  </ng-template>
+</ngb-carousel>
 <router-outlet></router-outlet>
