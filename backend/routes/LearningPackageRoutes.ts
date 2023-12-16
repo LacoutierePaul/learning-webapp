@@ -6,7 +6,12 @@ const learningPackageRoutes = express.Router();
 
 learningPackageRoutes.get("/api/learningPackage", async (req: Request, res: Response) => {
     try {
-        let LearningPackages: LearningPackage[] = await LearningPackage.findAll();
+        let LearningPackages: LearningPackage[] = await LearningPackage.findAll({
+            order: [
+                ["packageName", "ASC"],
+                ["packageProgress", "DESC"]
+            ]
+        });
         res.status(200).send(LearningPackages);
     } catch(error){
         res.status(500).send("Could not query the database");
@@ -17,11 +22,15 @@ learningPackageRoutes.get("/api/learningPackage", async (req: Request, res: Resp
 learningPackageRoutes.get("/api/learningPackage/favorites", async (req: Request, res: Response) => {
     try {
         let favoriteLearningPackages: LearningPackage[] = await LearningPackage.findAll({
-            where: { packageFavourite: true }
+            where: { packageFavorite: true },
+            order: [
+                ["packageName", "ASC"],
+                ["packageProgress", "DESC"]
+            ]
         });
         res.status(200).send(favoriteLearningPackages)
     } catch(error){
-        res.status(500).send("Unable to find favorite packages");
+        res.status(500).send(error);
     }
 });
 
