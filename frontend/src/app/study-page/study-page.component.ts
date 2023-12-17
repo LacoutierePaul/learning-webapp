@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { LearningPackage } from "../app.component";
 
@@ -7,14 +7,19 @@ import { LearningPackage } from "../app.component";
   templateUrl: './study-page.component.html',
   styleUrls: ['./study-page.component.css']
 })
-export class StudyPageComponent {
+export class StudyPageComponent implements OnInit{
   statusMessage: string = "aa";
   learningPackages: LearningPackage[] = [];
 
   constructor(private httpClient: HttpClient) {}
 
-  GetLesson() {
-    this.httpClient.get<LearningPackage[]>('/api/learningPackage').subscribe({
+  ngOnInit(): void {
+      this.getLessons(false);
+  }
+
+  getLessons(onlyFavorites: boolean) {
+    let apiUrl = onlyFavorites ? "/api/learningPackage/favorites" : "/api/learningPackage";
+    this.httpClient.get<LearningPackage[]>(apiUrl).subscribe({
       next: (res) => {
         this.learningPackages = res;
         this.statusMessage = "Data loaded successfully!";

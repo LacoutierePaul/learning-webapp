@@ -1,15 +1,9 @@
-<!-- study-page.component.html -->
-
-<p>study-page works!</p>
-<button type="button" class="btn btn-small btn-outline-primary" (click)="GetLesson()">Test</button>
-
-<p>Affichage de la requête</p>
-
-<!-- Display information using ngFor -->
-<div *ngFor="let package of learningPackages">
-  <h3>{{ package.packageName }}</h3>
-  <p>{{ package.packageDescription }}</p>
-  <!-- Add more properties as needed -->
+<div class="homePageTitle p-5 d-flex flex-column align-items-center">
+  <h1 class="fw-bolder">Discover our amazing collection of learning packages !</h1>
 </div>
-
-<p>{{ statusMessage }}</p>
+<div class="d-flex flex-column align-items-center gap-4 mt-2">
+  <mat-checkbox class="fw-bolder" (change)="getLessons($event.checked)">Favorites only</mat-checkbox>
+  <div class="d-flex justify-content-center gap-5 flex-wrap">
+    <app-learning-package-card *ngFor="let learningPackage of learningPackages" [learningPackage]="learningPackage"></app-learning-package-card>
+  </div>
+</div>
