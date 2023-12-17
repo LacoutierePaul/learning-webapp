@@ -1,0 +1,18 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<mat-card class="package-card">
+  <mat-card-header class="d-flex justify-content-between">
+    <mat-card-title class="fw-bolder">
+      <h5>{{learningPackage.packageName}}</h5>
+    </mat-card-title>
+    <div class="favorite-icon" (click)="changeFavoriteStatus(!learningPackage.packageFavorite)" role="button">
+      <mat-icon>{{ learningPackage.packageFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+    </div>
+  </mat-card-header>
+  <mat-card-content class="mt-2">{{learningPackage.packageDescription}}</mat-card-content>
+  <mat-card-actions class="mt-2">
+    <button class="btn btn-primary mt-2" (click)="goToLearningFactPage(learningPackage.packageId)">Go to course </button>
+  </mat-card-actions>
+  <mat-card-footer class="ps-2 mt-2">
+    <mat-progress-bar mode="determinate" [value]="learningPackage.packageProgress"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

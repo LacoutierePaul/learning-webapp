@@ -8,3 +8,12 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'frontend';
 }
+
+export interface LearningPackage  {
+   packageId: number;
+   packageName: string;
+   packageDescription: string;
+   packageProgress: number;
+   packageDifficulty: number;
+   packageFavorite: boolean;
+}

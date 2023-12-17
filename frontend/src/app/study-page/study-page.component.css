@@ -1,0 +1,10 @@
+.package-list {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+  justify-content: center;
+}
+
+.homePageTitle{
+  background-color: bisque;
+}

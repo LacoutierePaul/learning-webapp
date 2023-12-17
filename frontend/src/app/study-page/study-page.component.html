@@ -1,0 +1,9 @@
+<div class="homePageTitle p-5 d-flex flex-column align-items-center">
+  <h1 class="fw-bolder">Discover our amazing collection of learning packages !</h1>
+</div>
+<div class="d-flex flex-column align-items-center gap-4 mt-2">
+  <mat-checkbox class="fw-bolder" (change)="getLessons($event.checked)">Favorites only</mat-checkbox>
+  <div class="d-flex justify-content-center gap-5 flex-wrap">
+    <app-learning-package-card *ngFor="let learningPackage of learningPackages" [learningPackage]="learningPackage"></app-learning-package-card>
+  </div>
+</div>
