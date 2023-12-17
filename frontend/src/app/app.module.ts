@@ -14,6 +14,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { LearningFactPageComponent } from './learning-fact-page/learning-fact-page.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     NavbarComponent,
     StudyPageComponent,
     HomePageComponent,
-    LearningPackageCardComponent
+    LearningPackageCardComponent,
+    LearningFactPageComponent
   ],
   imports: [
     BrowserModule,
