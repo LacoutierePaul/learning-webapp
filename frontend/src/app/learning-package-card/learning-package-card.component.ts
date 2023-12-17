@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {LearningPackage} from "../app.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-learning-package-card',
@@ -19,7 +20,7 @@ export class LearningPackageCardComponent {
     packageFavorite: false,
   };
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
   changeFavoriteStatus(favorite: boolean){
     this.httpClient.put<LearningPackage>("/api/learningPackage", {
@@ -35,4 +36,7 @@ export class LearningPackageCardComponent {
       });
   }
 
+  goToLearningFactPage(learningPackageId: number) {
+    this.router.navigate(['/learning-fact-page', learningPackageId]);
+  }
 }
