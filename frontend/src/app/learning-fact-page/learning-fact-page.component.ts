@@ -13,7 +13,7 @@ export class LearningFactPageComponent implements  OnInit{
   learningFacts: LearningFact[] = [];
   showQuestion: boolean = true;
   i:number=0;
-
+  selectedDifficulty: string='';
 
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {}
@@ -51,6 +51,8 @@ export class LearningFactPageComponent implements  OnInit{
     if(!this.showQuestion) {
       this.showQuestion=true;
     }
+    this.selectedDifficulty = '';
+
   }
   previousFact() {
     if(this.i>0) {
@@ -60,4 +62,6 @@ export class LearningFactPageComponent implements  OnInit{
       this.showQuestion=true;
     }
   }
+
+
 }
