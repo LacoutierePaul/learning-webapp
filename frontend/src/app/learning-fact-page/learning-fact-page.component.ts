@@ -8,7 +8,7 @@ import {ActivatedRoute} from "@angular/router";
   templateUrl: './learning-fact-page.component.html',
   styleUrls: ['./learning-fact-page.component.css']
 })
-export class LearningFactPageComponent {
+export class LearningFactPageComponent implements  OnInit{
   learningPackage: any;
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {}
