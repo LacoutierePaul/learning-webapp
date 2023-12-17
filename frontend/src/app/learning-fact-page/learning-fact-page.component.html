@@ -15,28 +15,29 @@
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-md-1" >
-      <button class="btn btn-primary" (click)="previousFact()">Previous</button>
-    </div>
-    <div class="col-md-1" >
-      <button class="btn btn-primary" (click)="nextFact()" >Next</button>
-    </div>
-    <div class="col-md-1">
+    <div class="col-md-3">
       <label>Difficulty</label>
       <div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="Difficulty" id="Easy" value="Easy">
+          <input class="form-check-input" type="radio" name="Difficulty" id="Easy" value="Easy" [(ngModel)]="selectedDifficulty" >
           <label class="form-check-label" for="Easy">Easy</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="Difficulty" id="Hard" value="Hard">
+          <input class="form-check-input" type="radio" name="Difficulty" id="Hard" value="Hard" [(ngModel)]="selectedDifficulty">
           <label class="form-check-label" for="Hard">Hard</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="Difficulty" id="unknown" value="unknown">
+          <input class="form-check-input" type="radio" name="Difficulty" id="unknown" value="unknown" [(ngModel)]="selectedDifficulty">
           <label class="form-check-label" for="unknown">Didn't know</label>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-1">
+      <ng-container *ngIf="selectedDifficulty !== ''">
+        <button class="btn btn-primary" (click)="nextFact()">Next</button>
+      </ng-container>
     </div>
   </div>
 </div>
