@@ -1,6 +1,6 @@
 import { Component,OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LearningPackage } from '../app.component';
+import { LearningPackage,LearningFact } from '../app.component';
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -10,14 +10,16 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class LearningFactPageComponent implements  OnInit{
   learningPackage: any;
+  learningFacts: LearningFact[] = [];
+  showQuestion: boolean = true;
+  i:number=0;
+
+
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {}
 
   ngOnInit():void {
-    // Récupérez l'ID du package depuis l'URL
     const packageId = this.route.snapshot.paramMap.get('id');
-
-    // Effectuez une requête pour obtenir les informations du package à partir de l'ID
     this.httpClient.get(`/api/learningPackage/${packageId}`).subscribe({
       next: (res) => {
         this.learningPackage = res;
@@ -26,7 +28,36 @@ export class LearningFactPageComponent implements  OnInit{
         console.error(`Failed to fetch data for package ID ${packageId}`, err);
       }
     });
+
+
+    this.httpClient.get<LearningFact[]>(`/api/learningFact/${packageId}`).subscribe({
+      next: (res) => {
+        this.learningFacts = res;
+      },
+      error: (err) => {
+        console.error(`Failed to fetch data for package ID ${packageId}`, err);
+      }
+    });
   }
 
+  changeAnswer() {
+    this.showQuestion=!this.showQuestion;
+  }
 
+  nextFact() {
+    if(this.i<this.learningFacts.length-1) {
+      this.i = this.i + 1;
+    }
+    if(!this.showQuestion) {
+      this.showQuestion=true;
+    }
+  }
+  previousFact() {
+    if(this.i>0) {
+      this.i = this.i - 1;
+    }
+    if(!this.showQuestion) {
+      this.showQuestion=true;
+    }
+  }
 }

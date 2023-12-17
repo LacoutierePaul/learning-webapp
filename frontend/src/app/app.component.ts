@@ -17,3 +17,15 @@ export interface LearningPackage  {
    packageDifficulty: number;
    packageFavorite: boolean;
 }
+
+export interface LearningFact  {
+  factId: number;
+  packageId: number;
+  factQuestion: string;
+  factAnswer: string;
+  factTimesReviewed: number;
+  factLastReviewedDate: Date;
+  factNextReviewDate: Date;
+  confidenceLevel: number;
+}
+

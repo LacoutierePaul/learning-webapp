@@ -1,2 +1,42 @@
-<p>learning-fact-page works!</p>
-<h5>{{learningPackage.packageId}}</h5>
+<div class="homePageTitle p-5 d-flex flex-column align-items-center">
+  <h1 class="fw-bolder">Learning {{learningPackage.packageName}}</h1>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+      <div class="col-md-3">
+      <div class="card text-center " style="border: 1px solid #ddd;">
+        <div class="card-body">
+          <h5 class="card-title">{{ showQuestion ? learningFacts[i].factQuestion : learningFacts[i].factAnswer }}</h5>
+          <p >{{i}} </p>
+          <a class="btn btn-primary stretched-link" (click)="changeAnswer()">See the {{showQuestion ? 'answer' : 'question'}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-1" >
+      <button class="btn btn-primary" (click)="previousFact()">Previous</button>
+    </div>
+    <div class="col-md-1" >
+      <button class="btn btn-primary" (click)="nextFact()" >Next</button>
+    </div>
+    <div class="col-md-1">
+      <label>Difficulty</label>
+      <div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="Difficulty" id="Easy" value="Easy">
+          <label class="form-check-label" for="Easy">Easy</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="Difficulty" id="Hard" value="Hard">
+          <label class="form-check-label" for="Hard">Hard</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="Difficulty" id="unknown" value="unknown">
+          <label class="form-check-label" for="unknown">Didn't know</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
