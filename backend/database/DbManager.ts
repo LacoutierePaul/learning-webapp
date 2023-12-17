@@ -113,7 +113,7 @@ export async function createTables(){
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-    }, { sequelize, tableName: "Participation" });
+    }, { sequelize, tableName: "Statistics" });
 
     await LearningPackage.sync({force: false});
     console.log("Member table created");
