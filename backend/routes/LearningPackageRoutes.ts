@@ -13,11 +13,31 @@ learningPackageRoutes.get("/api/learningPackage", async (req: Request, res: Resp
     }
 });
 
+learningPackageRoutes.get("/api/learningPackage/:id", async (req: Request, res: Response) => {
+    try {
+        const id = +req.params.id;
+        console.log('Handle HTTP GET /api/learning-package2/:id', id);
+        const ourLearningPackage:LearningPackage  = await LearningPackage.findOne({
+            where: { packageId: id }
+        });
+        if (ourLearningPackage) {
+            // Renvoyez le package d'apprentissage en tant que réponse JSON
+            res.status(200).send(ourLearningPackage);
+        } else {
+            // Renvoyez une réponse 404 si le package n'a pas été trouvé
+            res.status(404).send({ error: 'Package entity not found for ID: ' + id });
+        }
+    } catch(error){
+        res.status(500).send("Could not query the database");
+    }
+});
+
+
 
 learningPackageRoutes.get("/api/learningPackage/favorites", async (req: Request, res: Response) => {
     try {
         let favoriteLearningPackages: LearningPackage[] = await LearningPackage.findAll({
-            where: { packageFavourite: true }
+            where: { packageFavorite: true }
         });
         res.status(200).send(favoriteLearningPackages)
     } catch(error){
