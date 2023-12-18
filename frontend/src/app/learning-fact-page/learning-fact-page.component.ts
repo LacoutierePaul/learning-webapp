@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LearningPackage,LearningFact } from '../app.component';
 import {ActivatedRoute} from "@angular/router";
+import {last} from "rxjs";
 
 @Component({
   selector: 'app-learning-fact-page',
@@ -51,6 +52,17 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
     });
   }
 
+  putFact(fact: LearningFact) {
+    this.httpClient.put(`/api/learningFact`, fact).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.error(`Failed to fetch data for package ID ${this.learningPackage.packageId}`, err);
+      }
+    });
+  }
+
   ngOnDestroy(): void {
     clearInterval(this.timer);
   }
@@ -60,6 +72,9 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
   }
 
   nextFact(difficulty: string) {
+    this.updateFact(this.learningFacts[this.i],difficulty);
+    this.putFact(this.learningFacts[this.i]);
+
 
     if(this.i<this.learningFacts.length-1) {
       this.i = this.i + 1;
@@ -93,5 +108,44 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
 
   isButtonDisabled():boolean {
     return this.learningFacts.length === 0;
+  }
+
+  private updateFact(fact: LearningFact,difficulty :string) {
+    let actualconfidence = this.learningFacts[this.i].confidenceLevel;
+    let again=false
+    let today = new Date();
+
+    switch (difficulty) {
+      case "Easy":
+        this.learningFacts[this.i].confidenceLevel = actualconfidence+1;
+        break;
+      case "Hard":
+        again=true;
+        if(actualconfidence>1)
+          this.learningFacts[this.i].confidenceLevel = actualconfidence-1;
+        break;
+      default:
+        console.log('no changes');
+        break;
+    }
+    this.learningFacts[this.i].factTimesReviewed = this.learningFacts[this.i].factTimesReviewed+1
+    this.learningFacts[this.i].factLastReviewedDate = new Date();
+    if(again) {
+      this.learningFacts[this.i].factNextReviewDate =today;
+      console.log(this.learningFacts[this.i].factNextReviewDate)
+
+    }
+    else
+    {
+      let lastdate =new Date(this.learningFacts[this.i].factLastReviewedDate);
+      let nextdate =new Date(this.learningFacts[this.i].factNextReviewDate);
+      let timeBetwen=nextdate.getDate()-lastdate.getDate();
+      console.log(timeBetwen)
+       if(timeBetwen<=0) timeBetwen=1;
+      let value=new Date();
+      value.setDate(value.getDate() + timeBetwen*this.learningFacts[this.i].confidenceLevel);
+      this.learningFacts[this.i].factNextReviewDate =value;
+    }
+
   }
 }
