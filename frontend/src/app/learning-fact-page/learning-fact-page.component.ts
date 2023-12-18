@@ -1,4 +1,4 @@
-import { Component,OnInit} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LearningPackage,LearningFact } from '../app.component';
 import {ActivatedRoute} from "@angular/router";
@@ -9,28 +9,43 @@ import {leadingComment} from "@angular/compiler";
   templateUrl: './learning-fact-page.component.html',
   styleUrls: ['./learning-fact-page.component.css']
 })
-export class LearningFactPageComponent implements  OnInit{
+export class LearningFactPageComponent implements OnInit, OnDestroy{
+
   learningPackage: any;
   learningFacts: LearningFact[] = [];
   showQuestion: boolean = true;
   session:boolean=false;
   i:number=0;
+  timer: any;
+  timeSpent: number = 0;
 
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {}
 
-  ngOnInit():void {
+  async ngOnInit(): Promise<void> {
+    const packageId = await this.getPackage();
+    this.getFacts(packageId);
+  }
+
+  async getPackage(): Promise<number> {
     const packageId = this.route.snapshot.paramMap.get('id');
     this.httpClient.get(`/api/learningPackage/${packageId}`).subscribe({
       next: (res) => {
         this.learningPackage = res;
+        return this.learningPackage.packageId;
       },
       error: (err) => {
         console.error(`Failed to fetch data for package ID ${packageId}`, err);
       }
     });
+    return -1;
+  }
 
+  getStatistics(){
 
+  }
+
+  getFacts(packageId: number){
     this.httpClient.get<LearningFact[]>(`/api/learningFact/${packageId}`).subscribe({
       next: (res) => {
         this.learningFacts = res;
@@ -39,6 +54,10 @@ export class LearningFactPageComponent implements  OnInit{
         console.error(`Failed to fetch data for package ID ${packageId}`, err);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.timer);
   }
 
   changeAnswer() {
@@ -57,6 +76,8 @@ export class LearningFactPageComponent implements  OnInit{
     {
       console.log("fini");
       this.session=false;
+      //TODO : METTRE MODIFICATION STATS
+      clearTimeout(this.timer);
     }
 
     let value:string = difficulty;
@@ -64,9 +85,14 @@ export class LearningFactPageComponent implements  OnInit{
   }
 
   startSession() {
+    this.startTimer()
     this.session=true;
     this.i=0;
   }
 
-  protected readonly leadingComment = leadingComment;
+  startTimer(){
+    this.timer = setInterval(() => {
+      this.timeSpent++;
+    }, 1000);
+  }
 }
