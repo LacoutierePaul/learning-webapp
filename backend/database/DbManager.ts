@@ -93,12 +93,12 @@ export async function createTables(){
             type: DataTypes.INTEGER,
             primaryKey: true,
         },
-        factId: {
+        packageId: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             references: {
-                model: LearningFact,
-                key: 'factId'
+                model: LearningPackage,
+                key: 'packageId'
             }
         },
         lowConfidenceCount: {
@@ -113,6 +113,10 @@ export async function createTables(){
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        timeSpent: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        }
     }, { sequelize, tableName: "Statistics" });
 
     await LearningPackage.sync({force: false});
