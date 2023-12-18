@@ -5,20 +5,21 @@
 <div class="container-fluid">
   <div class="row">
     <!-- Package Information-->
-    <div class="col-md-3 border ">
+    <div class="col-md-3">
       <h3>Package Information</h3>
       <p>Name: {{learningPackage.packageName}}</p>
       <p>Description: {{learningPackage.packageDescription}}</p>
       <p>Difficulty: {{learningPackage.packageDifficulty}}</p>
       <p>Progression : {{learningPackage.packageProgress}}</p>
-      <p>Number of facts : {{learningFacts.length}}</p>
+      <p>Total number of facts : {{learningLength}}</p>
+      <p>{{ !isButtonDisabled() ? "Number of facts to learn in the next session: " + learningFacts.length : "Nothing to learn for this package" }}</p>
       <p>Statistics : {{timeSpent}} seconds</p>
     </div>
 
     <!-- Card with question -->
-    <div *ngIf="session" class="col-md-6 border">
+    <div *ngIf="session " class="col-md-6">
       <div class="row justify-content-center">
-        <div class="col-md-9 border text-center">
+        <div class="col-md-9 text-center">
           <h4>Question {{i+1}} / {{learningFacts.length}}</h4>
           <div class="card text-center" style="border: 1px solid #ddd;">
             <div class="card-body">
@@ -30,12 +31,12 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-md-3 border text-center">
+        <div class="col-md-3  text-center">
           <h6>Difficulty</h6>
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-md-12 border text-center">
+        <div class="col-md-12 text-center">
           <div class="btn-group" role="group" aria-label="Difficulty">
             <button type="button" class="btn btn-outline-warning" (click)="nextFact('Easy')">Easy</button>
             <button type="button" class="btn btn-outline-warning" (click)="nextFact('Medium')">Medium</button>
@@ -45,7 +46,7 @@
       </div>
     </div>
     <div *ngIf="!session" >
-      <button class="btn btn-primary" (click)="startSession()">Start Session</button>
+      <button class="btn btn-primary" (click)="startSession() " [disabled]="isButtonDisabled()">Start Session</button>
     </div>
   </div>
 </div>
