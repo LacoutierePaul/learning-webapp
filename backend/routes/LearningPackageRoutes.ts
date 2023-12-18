@@ -34,7 +34,7 @@ learningPackageRoutes.get("/api/learningPackage/:id", async (req: Request, res: 
 
 
 
-learningPackageRoutes.get("/api/learningPackage/favorites", async (req: Request, res: Response) => {
+learningPackageRoutes.get("/api/learningPackageFavorites", async (req: Request, res: Response) => {
     try {
         let favoriteLearningPackages: LearningPackage[] = await LearningPackage.findAll({
             where: { packageFavorite: true },
