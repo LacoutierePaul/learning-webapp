@@ -1,43 +1,51 @@
-<div class="homePageTitle p-5 d-flex flex-column align-items-center">
+<div class="homePageTitle p-5 mb-4 d-flex flex-column align-items-center">
   <h1 class="fw-bolder">Learning {{learningPackage.packageName}}</h1>
 </div>
 
-<div class="container">
-  <div class="row justify-content-center">
-      <div class="col-md-3">
-      <div class="card text-center " style="border: 1px solid #ddd;">
-        <div class="card-body">
-          <h5 class="card-title">{{ showQuestion ? learningFacts[i].factQuestion : learningFacts[i].factAnswer }}</h5>
-          <p >{{i}} </p>
-          <a class="btn btn-primary stretched-link" (click)="changeAnswer()">See the {{showQuestion ? 'answer' : 'question'}}</a>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Package Information-->
+    <div class="col-md-3 border ">
+      <h3>Package Information</h3>
+      <p>Name: {{learningPackage.packageName}}</p>
+      <p>Description: {{learningPackage.packageDescription}}</p>
+      <p>Difficulty: {{learningPackage.packageDifficulty}}</p>
+      <p>Progression : {{learningPackage.packageProgress}}</p>
+      <p>Number of facts : {{learningFacts.length}}</p>
+      <p>Statistics : </p>
+    </div>
+
+    <!-- Card with question -->
+    <div *ngIf="session" class="col-md-6 border">
+      <div class="row justify-content-center">
+        <div class="col-md-9 border text-center">
+          <h4>Question {{i+1}} / {{learningFacts.length}}</h4>
+          <div class="card text-center" style="border: 1px solid #ddd;">
+            <div class="card-body">
+              <h1 class="card-title">{{ showQuestion ? learningFacts[i].factQuestion : learningFacts[i].factAnswer }}</h1>
+              <p></p>
+              <a class="btn btn-secondary stretched-link" (click)="changeAnswer()">See the {{showQuestion ? 'answer' : 'question'}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-3 border text-center">
+          <h6>Difficulty</h6>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-12 border text-center">
+          <div class="btn-group" role="group" aria-label="Difficulty">
+            <button type="button" class="btn btn-outline-warning" (click)="nextFact('Easy')">Easy</button>
+            <button type="button" class="btn btn-outline-warning" (click)="nextFact('Medium')">Medium</button>
+            <button type="button" class="btn btn-outline-warning" (click)="nextFact('Hard')">Hard</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="col-md-3">
-      <label>Difficulty</label>
-      <div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="Difficulty" id="Easy" value="Easy" [(ngModel)]="selectedDifficulty" >
-          <label class="form-check-label" for="Easy">Easy</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="Difficulty" id="Hard" value="Hard" [(ngModel)]="selectedDifficulty">
-          <label class="form-check-label" for="Hard">Hard</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="Difficulty" id="unknown" value="unknown" [(ngModel)]="selectedDifficulty">
-          <label class="form-check-label" for="unknown">Didn't know</label>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="col-md-1">
-      <ng-container *ngIf="selectedDifficulty !== ''">
-        <button class="btn btn-primary" (click)="nextFact()">Next</button>
-      </ng-container>
+    <div *ngIf="!session" >
+      <button class="btn btn-primary" (click)="startSession()">Start Session</button>
     </div>
   </div>
 </div>
