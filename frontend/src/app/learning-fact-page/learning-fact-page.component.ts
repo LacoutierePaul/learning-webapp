@@ -2,6 +2,7 @@ import { Component,OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LearningPackage,LearningFact } from '../app.component';
 import {ActivatedRoute} from "@angular/router";
+import {leadingComment} from "@angular/compiler";
 
 @Component({
   selector: 'app-learning-fact-page',
@@ -12,8 +13,8 @@ export class LearningFactPageComponent implements  OnInit{
   learningPackage: any;
   learningFacts: LearningFact[] = [];
   showQuestion: boolean = true;
+  session:boolean=false;
   i:number=0;
-  selectedDifficulty: string='';
 
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {}
@@ -44,24 +45,28 @@ export class LearningFactPageComponent implements  OnInit{
     this.showQuestion=!this.showQuestion;
   }
 
-  nextFact() {
+  nextFact(difficulty: string) {
+
     if(this.i<this.learningFacts.length-1) {
       this.i = this.i + 1;
+      if(!this.showQuestion) {
+        this.showQuestion=true;
+      }
     }
-    if(!this.showQuestion) {
-      this.showQuestion=true;
+    else
+    {
+      console.log("fini");
+      this.session=false;
     }
-    this.selectedDifficulty = '';
 
-  }
-  previousFact() {
-    if(this.i>0) {
-      this.i = this.i - 1;
-    }
-    if(!this.showQuestion) {
-      this.showQuestion=true;
-    }
+    let value:string = difficulty;
+  //appeller une fonction pour modifier la next date et le level confidence en fonction de la difficulté
   }
 
+  startSession() {
+    this.session=true;
+    this.i=0;
+  }
 
+  protected readonly leadingComment = leadingComment;
 }
