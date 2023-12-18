@@ -17,7 +17,7 @@ learningFactRoutes.get("/api/learningFact", async (req: Request, res: Response) 
 });
 
 //Get all the facts for a given learning package with the id
-learningFactRoutes.get("/api/learningFact/:id", async (req: Request, res: Response) => {
+learningFactRoutes.get("/api/allLearningFact/:id", async (req: Request, res: Response) => {
     try {
         const id = +req.params.id;
         let LearningFacts: LearningFact[] = await LearningFact.findAll({
@@ -34,6 +34,31 @@ learningFactRoutes.get("/api/learningFact/:id", async (req: Request, res: Respon
         res.status(500).send("Could not query the database");
     }
 });
+
+//get only the filtered fact and the length of the package
+learningFactRoutes.get("/api/learningFact/:id", async (req: Request, res: Response) => {
+    try {
+        const today = new Date();
+        const id = +req.params.id;
+        let LearningFacts: LearningFact[] = await LearningFact.findAll({
+            where: { packageId: id }
+        });
+
+        let LearningFactsFiltered = LearningFacts.filter((fact) => {
+            const factNextReviewDate = new Date(fact.factNextReviewDate);
+            return factNextReviewDate <= today &&fact.confidenceLevel<4;});
+        if(LearningFacts) {
+            res.status(200).send({'LearningFacts': LearningFactsFiltered,'LearningLength': LearningFacts.length});
+        }
+        else
+        {
+            res.status(404).send({ error: 'Facts entity not found for ID: ' + id });
+        }
+    } catch(error){
+        res.status(500).send("Could not query the database");
+    }
+});
+
 
 learningFactRoutes.get("/api/learningFact/:idPackage/:idFact", async (req: Request, res: Response) => {
     try {
