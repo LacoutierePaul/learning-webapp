@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LearningPackage,LearningFact } from '../app.component';
 import {ActivatedRoute} from "@angular/router";
-import {leadingComment} from "@angular/compiler";
 
 @Component({
   selector: 'app-learning-fact-page',
@@ -18,40 +17,36 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
   i:number=0;
   timer: any;
   timeSpent: number = 0;
+  learningLength: number = 0;
 
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {}
 
-  async ngOnInit(): Promise<void> {
-    const packageId = await this.getPackage();
-    this.getFacts(packageId);
+  ngOnInit() {
+    this.getPackage();
   }
 
-  async getPackage(): Promise<number> {
+  getPackage() {
     const packageId = this.route.snapshot.paramMap.get('id');
     this.httpClient.get(`/api/learningPackage/${packageId}`).subscribe({
       next: (res) => {
         this.learningPackage = res;
-        return this.learningPackage.packageId;
+        this.getFacts();
       },
       error: (err) => {
         console.error(`Failed to fetch data for package ID ${packageId}`, err);
       }
     });
-    return -1;
   }
 
-  getStatistics(){
-
-  }
-
-  getFacts(packageId: number){
-    this.httpClient.get<LearningFact[]>(`/api/learningFact/${packageId}`).subscribe({
-      next: (res) => {
-        this.learningFacts = res;
+  getFacts(){
+    this.httpClient.get(`/api/learningFact/${this.learningPackage.packageId}`).subscribe({
+      next: (res:any) => {
+        this.learningFacts = res.LearningFacts;
+        this.learningLength = res.LearningLength;
       },
       error: (err) => {
-        console.error(`Failed to fetch data for package ID ${packageId}`, err);
+        console.error(`Failed to fetch data for package ID ${this.learningPackage.packageId}`, err);
       }
     });
   }
@@ -94,5 +89,9 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
     this.timer = setInterval(() => {
       this.timeSpent++;
     }, 1000);
+  }
+
+  isButtonDisabled():boolean {
+    return this.learningFacts.length === 0;
   }
 }
