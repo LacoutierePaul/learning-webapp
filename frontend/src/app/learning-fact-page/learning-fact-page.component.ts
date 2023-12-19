@@ -86,6 +86,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
     {
       console.log("fini");
       this.session=false;
+      this.getPackage();
       //TODO : METTRE MODIFICATION STATS
       clearTimeout(this.timer);
     }
