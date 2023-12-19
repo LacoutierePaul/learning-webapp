@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input,OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {LearningPackage} from "../app.component";
 import {Router} from "@angular/router";
@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   templateUrl: './learning-package-card.component.html',
   styleUrls: ['./learning-package-card.component.css']
 })
-export class LearningPackageCardComponent {
+export class LearningPackageCardComponent implements OnInit{
 
   @Input()
   learningPackage: LearningPackage = {
@@ -19,9 +19,13 @@ export class LearningPackageCardComponent {
     packageDifficulty: 0,
     packageFavorite: false,
   };
+  length: number = 0;
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 
+  ngOnInit() {
+    this.getLength();
+  }
   changeFavoriteStatus(favorite: boolean){
     this.httpClient.put<LearningPackage>("/api/learningPackage", {
       "packageId": this.learningPackage.packageId,
@@ -38,5 +42,16 @@ export class LearningPackageCardComponent {
 
   goToLearningFactPage(learningPackageId: number) {
     this.router.navigate(['/learning-fact-page', learningPackageId]);
+  }
+
+  private getLength() {
+    this.httpClient.get(`/api/learningFact/${this.learningPackage.packageId}/count`).subscribe({
+      next: (res: any) => {
+        this.length =res;
+      },
+      error: (err) => {
+        console.error(`Failed to fetch data for package ID ${this.learningPackage.packageId}`, err);
+      }
+    });
   }
 }
