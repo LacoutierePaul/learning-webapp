@@ -87,6 +87,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
       console.log("fini");
       this.session=false;
       this.getPackage();
+      //TODO: METTRE A JOUR LE PACKAGE (PROGRESS)
       //TODO : METTRE MODIFICATION STATS
       clearTimeout(this.timer);
     }
@@ -112,18 +113,28 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
   }
 
   private updateFact(fact: LearningFact,difficulty :string) {
-    let actualconfidence = this.learningFacts[this.i].confidenceLevel;
-    let again=false
-    let today = new Date();
-
+    let value=new Date();
     switch (difficulty) {
       case "Easy":
-        this.learningFacts[this.i].confidenceLevel = actualconfidence+1;
+        this.learningFacts[this.i].confidenceLevel = 4;
+        value.setDate(value.getDate() + 4);
+        this.learningFacts[this.i].factNextReviewDate=value;
         break;
-      case "Hard":
-        again=true;
-        if(actualconfidence>1)
-          this.learningFacts[this.i].confidenceLevel = actualconfidence-1;
+      case "Review":
+          this.learningFacts[this.i].confidenceLevel =1;
+          this.learningFacts[this.i].factNextReviewDate=value;
+        break;
+      case "Correct":
+        this.learningFacts[this.i].confidenceLevel++;
+        if(this.learningFacts[this.i].confidenceLevel == 4)
+        {
+          value.setDate(value.getDate() + 1);
+          this.learningFacts[this.i].factNextReviewDate=value;
+        }
+        else {
+          value.setMinutes(value.getMinutes() + 10);
+          this.learningFacts[this.i].factNextReviewDate=value;
+        }
         break;
       default:
         console.log('no changes');
@@ -131,8 +142,9 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
     }
     this.learningFacts[this.i].factTimesReviewed = this.learningFacts[this.i].factTimesReviewed+1
     this.learningFacts[this.i].factLastReviewedDate = new Date();
+    /*
     if(again) {
-      this.learningFacts[this.i].factNextReviewDate =today;
+      this.learningFacts[this.i].factNextReviewDate =new Date();
       console.log(this.learningFacts[this.i].factNextReviewDate)
     }
     else
@@ -146,6 +158,6 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
       let value=new Date();
       value.setTime(value.getTime() + 24*60*60*1000*timeBetween*this.learningFacts[this.i].confidenceLevel);
       this.learningFacts[this.i].factNextReviewDate =value;
-    }
+    }*/
   }
 }
