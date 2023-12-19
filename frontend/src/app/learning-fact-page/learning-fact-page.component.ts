@@ -133,19 +133,18 @@ export class LearningFactPageComponent implements OnInit, OnDestroy{
     if(again) {
       this.learningFacts[this.i].factNextReviewDate =today;
       console.log(this.learningFacts[this.i].factNextReviewDate)
-
     }
     else
     {
       let lastdate =new Date(this.learningFacts[this.i].factLastReviewedDate);
       let nextdate =new Date(this.learningFacts[this.i].factNextReviewDate);
-      let timeBetwen=nextdate.getDate()-lastdate.getDate();
-      console.log(timeBetwen)
-       if(timeBetwen<=0) timeBetwen=1;
+      let timeBetween=nextdate.getTime()-lastdate.getTime();
+      timeBetween=timeBetween/(1000*3600*24);
+      console.log(timeBetween)
+       if(timeBetween<=0) timeBetween=1;
       let value=new Date();
-      value.setDate(value.getDate() + timeBetwen*this.learningFacts[this.i].confidenceLevel);
+      value.setTime(value.getTime() + 24*60*60*1000*timeBetween*this.learningFacts[this.i].confidenceLevel);
       this.learningFacts[this.i].factNextReviewDate =value;
     }
-
   }
 }
