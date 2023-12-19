@@ -38,7 +38,7 @@ learningFactRoutes.get("/api/allLearningFact/:id", async (req: Request, res: Res
 //get only the filtered fact and the length of the package
 learningFactRoutes.get("/api/learningFact/:id", async (req: Request, res: Response) => {
     try {
-        const today = new Date();
+        const now = new Date();
         const id = +req.params.id;
         let LearningFacts: LearningFact[] = await LearningFact.findAll({
             where: { packageId: id }
@@ -46,9 +46,32 @@ learningFactRoutes.get("/api/learningFact/:id", async (req: Request, res: Respon
 
         let LearningFactsFiltered = LearningFacts.filter((fact) => {
             const factNextReviewDate = new Date(fact.factNextReviewDate);
-            return factNextReviewDate <= today &&fact.confidenceLevel<4;});
+            return factNextReviewDate <= now && fact.confidenceLevel<4;});
         if(LearningFacts) {
             res.status(200).send({'LearningFacts': LearningFactsFiltered,'LearningLength': LearningFacts.length});
+        }
+        else
+        {
+            res.status(404).send({ error: 'Facts entity not found for ID: ' + id });
+        }
+    } catch(error){
+        res.status(500).send("Could not query the database");
+    }
+});
+
+learningFactRoutes.get("/api/learningFact/:id/count", async (req: Request, res: Response) => {
+    try {
+        const id = +req.params.id;
+        let LearningFacts: LearningFact[] = await LearningFact.findAll({
+            where: { packageId: id }
+        });
+        const now = new Date();
+
+        let LearningFactsFiltered = LearningFacts.filter((fact) => {
+            const factNextReviewDate = new Date(fact.factNextReviewDate);
+            return factNextReviewDate <= now});
+        if(LearningFactsFiltered) {
+            res.status(200).send(String(LearningFactsFiltered.length));
         }
         else
         {
