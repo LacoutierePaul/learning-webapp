@@ -18,6 +18,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
   showQuestion: boolean = true;
   learningSession: boolean = false;
   reviewSession: boolean = false;
+  factsSession:boolean= false;
   i: number = 0;
   timer: any;
   timeSpent: number = 0;
@@ -98,8 +99,8 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     } else {
       this.learningSession = false;
       this.reviewSession = false;
+      this.factsSession=false;
       this.getPackage();
-      //TODO: METTRE A JOUR LE PACKAGE (PROGRESS)
       //TODO : METTRE MODIFICATION STATS
       clearTimeout(this.timer);
     }
@@ -109,6 +110,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     this.startTimer()
     this.learningSession = true;
     this.reviewSession = false;
+    this.factsSession=false;
     this.i = 0;
   }
 
@@ -116,6 +118,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     this.startTimer()
     this.reviewSession = true;
     this.learningSession = false;
+    this.factsSession=false;
     this.i = 0;
   }
 
@@ -138,7 +141,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     switch (difficulty) {
       case "Easy":
         fact.confidenceLevel = 4;
-        value.setDate(value.getDate() + 4);
+        value.setDate(value.getDate()+4);
         fact.factNextReviewDate = value;
         break;
       case "Review":
@@ -187,5 +190,28 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     fact.factNextReviewDate = newDate;
     fact.factLastReviewedDate = dateNow;
     fact.factTimesReviewed++;
+  }
+
+  NextFactFactsSession() {
+    if (this.i < this.facts.length - 1) {
+      this.i++;
+      if (!this.showQuestion) {
+        this.showQuestion = true;
+      }
+    } else {
+      this.learningSession = false;
+      this.reviewSession = false;
+      this.factsSession = false;
+      clearTimeout(this.timer);
+
+    }
+  }
+
+  startFactsSession() {
+    this.startTimer()
+    this.learningSession = false;
+    this.reviewSession = false;
+    this.factsSession=true;
+    this.i = 0;
   }
 }
