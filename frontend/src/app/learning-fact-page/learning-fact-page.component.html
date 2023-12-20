@@ -42,7 +42,7 @@
               <h1
                 class="card-title">{{ showQuestion ? learningFacts[i].factQuestion : learningFacts[i].factAnswer }}</h1>
               <p></p>
-              <a class="btn btn-secondary stretched-link" (click)="changeAnswer()">See
+              <a class="btn btn-info stretched-link" style="background-color : bisque; border: 1px solid bisque;;" (click)="changeAnswer()">See
                 the {{ showQuestion ? 'answer' : 'question' }}</a>
             </div>
           </div>
@@ -53,13 +53,16 @@
           <h6>Difficulty</h6>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row">
         <div class="col-md-12 text-center">
           <div class="btn-group" role="group" aria-label="Difficulty">
             <button type="button" class="btn btn-outline-warning" (click)="nextFact('Review')">To Review</button>
             <button type="button" class="btn btn-outline-warning" (click)="nextFact('Correct')">Correct</button>
             <button type="button" class="btn btn-outline-warning" (click)="nextFact('Easy')">Easy</button>
           </div>
+        </div>
+        <div class="col-md-3 text-center">
+          <button class="btn btn-danger" (click)="endSession()">Stop Session</button>
         </div>
       </div>
     </div>
@@ -72,7 +75,7 @@
             <div class="card-body">
               <h1 class="card-title">{{ showQuestion ? reviewFacts[i].factQuestion : reviewFacts[i].factAnswer }}</h1>
               <p></p>
-              <a class="btn btn-secondary stretched-link" (click)="changeAnswer()">See
+              <a class="btn btn-info stretched-link" style="background-color : bisque; border: 1px solid bisque;;" (click)="changeAnswer()">See
                 the {{ showQuestion ? 'answer' : 'question' }}</a>
             </div>
           </div>
@@ -83,7 +86,7 @@
           <h6>Difficulty</h6>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row ">
         <div class="col-md-12 text-center">
           <div class="btn-group" role="group" aria-label="Difficulty">
             <button type="button" class="btn btn-outline-warning" (click)="nextFact('Review')">To Review</button>
@@ -91,6 +94,9 @@
             <button type="button" class="btn btn-outline-warning" (click)="nextFact('Correct')">Correct</button>
             <button type="button" class="btn btn-outline-warning" (click)="nextFact('Easy')">Easy</button>
           </div>
+        </div>
+        <div class="col-md-3 text-center">
+          <button class="btn btn-danger" (click)="endSession()">Stop Session</button>
         </div>
       </div>
     </div>
@@ -102,7 +108,7 @@
             <div class="card-body">
               <h1 class="card-title">{{ showQuestion ? facts[i].factQuestion : facts[i].factAnswer }}</h1>
               <p></p>
-              <a class="btn btn-secondary stretched-link" (click)="changeAnswer()">See
+              <a class="btn btn-info stretched-link" style="background-color : bisque; border: 1px solid bisque;;" (click)="changeAnswer()">See
                 the {{ showQuestion ? 'answer' : 'question' }}</a>
             </div>
           </div>
@@ -113,11 +119,14 @@
           <h6>Difficulty</h6>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row">
         <div class="col-md-12 text-center">
           <div class="btn-group" role="group" aria-label="Difficulty">
             <button type="button" class="btn btn-outline-warning" (click)="NextFactFactsSession()">Next</button>
           </div>
+        </div>
+        <div class="col-md-3 text-center">
+          <button class="btn btn-danger" (click)="endSession()">Stop Session</button>
         </div>
       </div>
     </div>
