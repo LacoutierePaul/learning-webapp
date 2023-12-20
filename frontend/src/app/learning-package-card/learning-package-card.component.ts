@@ -56,9 +56,9 @@ export class LearningPackageCardComponent implements OnInit{
   }
 
   getProgressBarColor() {
-    if (this.learningPackage.packageProgress < 30) {
+    if (this.learningPackage.packageProgress < 50) {
       return 'red'; // Change to your desired color for progress less than 30%
-    } else if (this.learningPackage.packageProgress < 70) {
+    } else if (this.learningPackage.packageProgress < 100) {
       return 'orange'; // Change to your desired color for progress between 30% and 70%
     } else {
       return 'green'; // Change to your desired color for progress greater than or equal to 70%
