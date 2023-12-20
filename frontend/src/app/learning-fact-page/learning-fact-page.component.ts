@@ -23,6 +23,9 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
   timer: any;
   timeSpent: number = 0;
   learningLength: number = 0;
+  lowConfidenceCount: number = 0;
+  mediumConfidenceCount: number = 0;
+  highConfidenceCount: number = 0;
 
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) {
@@ -150,13 +153,17 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
         fact.confidenceLevel = 4;
         value.setDate(value.getDate()+4);
         fact.factNextReviewDate = value;
+        this.highConfidenceCount++;
         break;
       case "Review":
         fact.confidenceLevel = 1;
         fact.factNextReviewDate = value;
+        this.lowConfidenceCount++;
         break;
+
       case "Correct":
         fact.confidenceLevel++;
+        this.mediumConfidenceCount++;
         if (fact.confidenceLevel == 4) {
           value.setDate(value.getDate() + 1);
           fact.factNextReviewDate = value;
@@ -178,6 +185,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
 
     switch (difficulty) {
       case 'Review':
+        this.lowConfidenceCount++;
         if (timeBetweenInDays > 1) {
           newDate.setDate(dateNow.getDate() + timeBetweenInDays - 1);
         } else {
@@ -185,12 +193,15 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
         }
         break;
       case 'Hard':
+        this.lowConfidenceCount++;
         newDate.setDate(dateNow.getDate() + timeBetweenInDays + 2);
         break;
       case 'Correct':
+        this.mediumConfidenceCount++;
         newDate.setDate(dateNow.getDate() + timeBetweenInDays + 5);
         break;
       case 'Easy':
+        this.highConfidenceCount++;
         newDate.setDate(dateNow.getDate() + timeBetweenInDays + 10);
         break;
     }
@@ -200,6 +211,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
   }
 
   NextFactFactsSession() {
+    this.learningFacts[this.i].factTimesReviewed++;
     if (this.i < this.facts.length - 1) {
       this.i++;
       if (!this.showQuestion) {
@@ -210,7 +222,6 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
       this.reviewSession = false;
       this.factsSession = false;
       clearTimeout(this.timer);
-
     }
   }
 
@@ -226,6 +237,9 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     this.httpClient.put<Statistics>("/api/statistic", {
       "packageId": this.learningPackage.packageId,
       "timeSpent": this.timeSpent,
+      "lowConfidenceCount": this.lowConfidenceCount,
+      "mediumConfidenceCount": this.mediumConfidenceCount,
+      "highConfidenceCount": this.highConfidenceCount
     })
       .subscribe({
         next: (res: Statistics) => {
@@ -241,6 +255,9 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     this.httpClient.get(`/api/statistic/${this.learningPackage.packageId}`).subscribe({
       next: (res: any) => {
         this.timeSpent = res.timeSpent;
+        this.lowConfidenceCount = res.lowConfidenceCount;
+        this.mediumConfidenceCount = res.mediumConfidenceCount;
+        this.highConfidenceCount = res.highConfidenceCount;
       },
       error: (err) => {
         console.error(`Failed to fetch data for package ID ${this.learningPackage.packageId}`, err);
