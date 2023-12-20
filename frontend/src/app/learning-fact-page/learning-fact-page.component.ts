@@ -2,7 +2,6 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LearningPackage, LearningFact,Statistics} from '../app.component';
 import {ActivatedRoute} from "@angular/router";
-import {last} from "rxjs";
 
 @Component({
   selector: 'app-learning-fact-page',
@@ -211,17 +210,15 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
   }
 
   NextFactFactsSession() {
-    this.learningFacts[this.i].factTimesReviewed++;
+    this.facts[this.i].factTimesReviewed++;
+    this.putFact(this.facts[this.i])
     if (this.i < this.facts.length - 1) {
       this.i++;
       if (!this.showQuestion) {
         this.showQuestion = true;
       }
     } else {
-      this.learningSession = false;
-      this.reviewSession = false;
-      this.factsSession = false;
-      clearTimeout(this.timer);
+      this.endSession();
     }
   }
 
