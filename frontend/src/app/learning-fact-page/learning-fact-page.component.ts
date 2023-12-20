@@ -33,7 +33,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
 
   getPackage() {
     const packageId = this.route.snapshot.paramMap.get('id');
-    this.httpClient.get(`/api/learningPackage/${packageId}`).subscribe({
+    this.httpClient.get(`/api/updateLearningPackage/${packageId}`).subscribe({
       next: (res) => {
         this.learningPackage = res;
         this.getFacts();
