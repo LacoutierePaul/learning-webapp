@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LearningPackage, LearningFact} from '../app.component';
+import {LearningPackage, LearningFact,Statistics} from '../app.component';
 import {ActivatedRoute} from "@angular/router";
 import {last} from "rxjs";
 
@@ -38,6 +38,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.learningPackage = res;
         this.getFacts();
+        this.getStats();
       },
       error: (err) => {
         console.error(`Failed to fetch data for package ID ${packageId}`, err);
@@ -97,13 +98,19 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
         this.showQuestion = true;
       }
     } else {
-      this.learningSession = false;
-      this.reviewSession = false;
-      this.factsSession=false;
-      this.getPackage();
-      //TODO : METTRE MODIFICATION STATS
-      clearTimeout(this.timer);
+      this.endSession();
     }
+  }
+
+
+  endSession() {
+    this.learningSession = false;
+    this.reviewSession = false;
+    this.factsSession=false;
+    this.saveStats();
+    this.getPackage();
+    clearTimeout(this.timer);
+
   }
 
   startlearningSession() {
@@ -213,5 +220,31 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     this.reviewSession = false;
     this.factsSession=true;
     this.i = 0;
+  }
+
+  private saveStats() {
+    this.httpClient.put<Statistics>("/api/statistic", {
+      "packageId": this.learningPackage.packageId,
+      "timeSpent": this.timeSpent,
+    })
+      .subscribe({
+        next: (res: Statistics) => {
+          this.timeSpent = res.timeSpent;
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+  }
+
+  private getStats() {
+    this.httpClient.get(`/api/statistic/${this.learningPackage.packageId}`).subscribe({
+      next: (res: any) => {
+        this.timeSpent = res.timeSpent;
+      },
+      error: (err) => {
+        console.error(`Failed to fetch data for package ID ${this.learningPackage.packageId}`, err);
+      }
+    });
   }
 }
