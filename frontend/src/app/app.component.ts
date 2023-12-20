@@ -29,3 +29,12 @@ export interface LearningFact  {
   confidenceLevel: number;
 }
 
+export interface Statistics  {
+  statId: number;
+  packageId: number;
+  lowConfidenceCount: number;
+  mediumConfidenceCount: number;
+  highConfidenceCount: number;
+  timeSpent: number;
+}
+
