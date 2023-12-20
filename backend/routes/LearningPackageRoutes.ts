@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { Request, Response} from 'express';
-import{LearningPackage} from "../database/Models"
+import{LearningPackage,LearningFact} from "../database/Models"
+import learningFactRoutes from "./LearningFactRoutes";
 
 const learningPackageRoutes = express.Router();
 
@@ -78,6 +79,71 @@ learningPackageRoutes.put("/api/learningPackage", async (req: Request, res: Resp
         res.status(500).send("Wrong id parameter format");
     }
 });
+
+// Update the learning package and include associated learning facts
+learningPackageRoutes.get("/api/updateLearningPackage/:id", async (req: Request, res: Response) => {
+    try{
+        let progression=0;
+        console.log("ID from request:", req.params.id);
+        let packageId = +req.params.id
+        let learningPackage: LearningPackage = await LearningPackage.findOne({
+            where: {packageId: packageId}
+        });
+        if(learningPackage){
+            let learningFacts:LearningFact[]=await LearningFact.findAll({
+                where:{packageId:packageId}
+            });
+            if(learningFacts.length>0)
+            {
+                learningFacts.forEach(fact => {
+                    if (fact.confidenceLevel === 4) progression += 1;
+                })
+                progression=Math.round(progression/learningFacts.length*100);
+            }
+            learningPackage.packageProgress=progression
+            await learningPackage.save();
+            res.status(200).send(learningPackage);
+        }
+        else {
+            res.status(500).send("Could not update this learning package");
+        }
+    } catch(error){
+        res.status(500).send("Wrong id parameter format");
+    }
+});
+
+
+learningPackageRoutes.get("/api/allUpdatedLearningPackage", async (req: Request, res: Response) => {
+    try {
+        let learningPackages: LearningPackage[] = await LearningPackage.findAll();
+        if (learningPackages.length != 0) {
+            for (const ourpackage of learningPackages) {
+                let progression = 0;
+                let learningFacts: LearningFact[] = await LearningFact.findAll({
+                    where: {packageId: ourpackage.packageId}
+                });
+                if (learningFacts.length > 0) {
+                    learningFacts.forEach(fact => {
+                        if (fact.confidenceLevel == 4) progression += 1;
+                    })
+                    progression = Math.round(progression / learningFacts.length * 100);
+                    console.log(progression)
+                }
+                ourpackage.packageProgress = progression;
+
+                await ourpackage.save();
+            }
+            res.status(200).send(learningPackages);
+
+        } else {
+            res.status(500).send("Could not update this learning package");
+        }
+    } catch(error){
+        res.status(500).send("Wrong id parameter format");
+    }
+});
+
+
 
 
 export default learningPackageRoutes;
