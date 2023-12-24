@@ -113,10 +113,6 @@ export async function createTables() {
         highConfidenceCount: {
             type: DataTypes.INTEGER,
             allowNull: false,
-        },
-        timeSpent: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
         }
     }, {sequelize, tableName: "Statistics"});
 

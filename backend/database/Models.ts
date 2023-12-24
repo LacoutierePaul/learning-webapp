@@ -26,7 +26,6 @@ export class Statistics extends Model {
     declare lowConfidenceCount: number;
     declare mediumConfidenceCount: number;
     declare highConfidenceCount: number;
-    declare timeSpent: number;
 }
 
 export class TimeHistory extends Model {
