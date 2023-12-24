@@ -20,13 +20,13 @@ export class StatisticsPageComponent implements OnInit {
   ngOnInit(): void {
     //this.getStartedPackages();
     this.getStartedPackageStatistics();
-    this.loadChart();
   }
 
   getStartedPackages() {
     this.httpClient.get<LearningPackage[]>("/api/startedLearningPackage").subscribe({
       next: (res: LearningPackage[]) => {
         this.startedLearningPackages = res;
+        this.getStartedPackageStatistics();
       },
       error: (err) => {
         console.error(err);
@@ -50,7 +50,6 @@ export class StatisticsPageComponent implements OnInit {
     let categories = this.startedLearningPackages.map(learningPackage => (
       {packageName: learningPackage.packageName}
     ));
-
     let series = [{
       name: "Low confidence",
       data: this.statisticsStartedLearningPackages.map(statistic => {
@@ -70,7 +69,7 @@ export class StatisticsPageComponent implements OnInit {
         })
       },
     ];
-    
+
     this.chartOptions = {
       chart: {
         type: 'bar'
