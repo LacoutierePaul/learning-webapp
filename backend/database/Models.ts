@@ -28,3 +28,10 @@ export class Statistics extends Model {
     declare highConfidenceCount: number;
     declare timeSpent: number;
 }
+
+export class TimeHistory extends Model {
+    declare historyId: number;
+    declare packageId: number;
+    declare timeSpent: number;
+    declare historyDate: Date;
+}
