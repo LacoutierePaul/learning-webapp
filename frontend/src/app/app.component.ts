@@ -18,15 +18,6 @@ export interface LearningPackage {
   packageFavorite: boolean;
 }
 
-export interface Statistics {
-  statId: number;
-  packageId: number;
-  lowConfidenceCount: number;
-  mediumConfidenceCount: number;
-  highConfidenceCount: number;
-  timeSpent: number;
-}
-
 export interface LearningFact {
   factId: number;
   packageId: number;
@@ -45,5 +36,12 @@ export interface Statistics {
   mediumConfidenceCount: number;
   highConfidenceCount: number;
   timeSpent: number;
+}
+
+export interface TimeHistory {
+  historyId: number;
+  packageId: number;
+  timeSpent: number;
+  historyDate: Date;
 }
 
