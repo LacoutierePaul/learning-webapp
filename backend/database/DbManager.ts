@@ -1,5 +1,5 @@
 import {DataTypes, Sequelize} from 'sequelize';
-import {LearningPackage, LearningFact, Statistics} from "./Models";
+import {LearningPackage, LearningFact, Statistics, TimeHistory} from "./Models";
 import * as fs from "fs";
 
 
@@ -120,13 +120,40 @@ export async function createTables() {
         }
     }, {sequelize, tableName: "Statistics"});
 
+    TimeHistory.init({
+        historyId: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        packageId: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            references: {
+                model: LearningPackage,
+                key: 'packageId'
+            }
+        },
+        timeSpent: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        historyDate: {
+            type: DataTypes.DATE,
+            allowNull: false
+        }
+    }, {sequelize, tableName: "TimeHistory"})
+
     await LearningPackage.sync({force: false});
-    console.log("Member table created");
+    console.log("LearningPackage table created");
 
     await LearningFact.sync({force: false});
     console.log("LearningFact table created");
 
     await Statistics.sync({force: false});
     console.log("Statistics table created");
+
+    await TimeHistory.sync({force: false});
+    console.log("TimeHistory table created");
 
 }
