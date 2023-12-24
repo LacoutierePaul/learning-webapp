@@ -3,15 +3,15 @@ import {LearningPackage, LearningFact, Statistics} from "./Models";
 import * as fs from "fs";
 
 
-const sequelize = new Sequelize( {
+const sequelize = new Sequelize({
     host: 'localhost',
     dialect: 'postgres',
-    username:'learningDbUser',
-    password:'root',
-    database:'LearningDb'
+    username: 'learningDbUser',
+    password: 'root',
+    database: 'LearningDb'
 });
 
-export function connectDb() : void {
+export function connectDb(): void {
     sequelize.authenticate().then(() => {
         console.log("Connected to database");
     }).catch((error) => {
@@ -19,7 +19,7 @@ export function connectDb() : void {
     });
 }
 
-export async function createTables(){
+export async function createTables() {
     LearningPackage.init({
         packageId: {
             type: DataTypes.INTEGER,
@@ -46,7 +46,7 @@ export async function createTables(){
             type: DataTypes.BOOLEAN,
             allowNull: false
         }
-    }, { sequelize, tableName: "LearningPackage" });
+    }, {sequelize, tableName: "LearningPackage"});
 
     LearningFact.init({
         factId: {
@@ -86,11 +86,12 @@ export async function createTables(){
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-    }, { sequelize, tableName: "LearningFact" });
+    }, {sequelize, tableName: "LearningFact"});
 
     Statistics.init({
         statId: {
             type: DataTypes.INTEGER,
+            autoIncrement: true,
             primaryKey: true,
         },
         packageId: {
@@ -117,7 +118,7 @@ export async function createTables(){
             type: DataTypes.INTEGER,
             allowNull: false,
         }
-    }, { sequelize, tableName: "Statistics" });
+    }, {sequelize, tableName: "Statistics"});
 
     await LearningPackage.sync({force: false});
     console.log("Member table created");
