@@ -26,7 +26,6 @@ export class StatisticsPageComponent implements OnInit {
     this.httpClient.get<LearningPackage[]>("/api/startedLearningPackage").subscribe({
       next: (res: LearningPackage[]) => {
         this.startedLearningPackages = res;
-        console.log(this.startedLearningPackages);
         this.getStartedPackageStatistics();
       },
       error: (err) => {
@@ -49,15 +48,15 @@ export class StatisticsPageComponent implements OnInit {
 
   loadChart() {
     let categories = this.startedLearningPackages.map(learningPackage => (
-      {packageName: learningPackage.packageName}
+      learningPackage.packageName
     ));
-    console.log(categories);
-    let series = [{
-      name: "Low confidence",
-      data: this.statisticsStartedLearningPackages.map(statistic => {
-        return statistic.lowConfidenceCount;
-      })
-    },
+    let series = [
+      {
+        name: "Low confidence (To review / Difficult)",
+        data: this.statisticsStartedLearningPackages.map(statistic => {
+          return statistic.lowConfidenceCount;
+        })
+      },
       {
         name: "Medium confidence",
         data: this.statisticsStartedLearningPackages.map(statistic => {
@@ -65,16 +64,17 @@ export class StatisticsPageComponent implements OnInit {
         })
       },
       {
-        name: "Low confidence",
+        name: "High confidence",
         data: this.statisticsStartedLearningPackages.map(statistic => {
           return statistic.highConfidenceCount;
         })
-      },
+      }
     ];
 
     this.chartOptions = {
       chart: {
-        type: 'bar'
+        type: 'bar',
+        height: "50%"
       },
       title: {
         text: 'Confidence counts by packages'
@@ -83,10 +83,7 @@ export class StatisticsPageComponent implements OnInit {
         categories: categories
       },
       yAxis: {
-        min: 0,
-        title: {
-          text: 'Goals'
-        }
+        min: 0
       },
       legend: {
         reversed: true
