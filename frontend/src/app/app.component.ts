@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,16 +9,25 @@ export class AppComponent {
   title = 'frontend';
 }
 
-export interface LearningPackage  {
-   packageId: number;
-   packageName: string;
-   packageDescription: string;
-   packageProgress: number;
-   packageDifficulty: number;
-   packageFavorite: boolean;
+export interface LearningPackage {
+  packageId: number;
+  packageName: string;
+  packageDescription: string;
+  packageProgress: number;
+  packageDifficulty: number;
+  packageFavorite: boolean;
 }
 
-export interface LearningFact  {
+export interface Statistics {
+  statId: number;
+  packageId: number;
+  lowConfidenceCount: number;
+  mediumConfidenceCount: number;
+  highConfidenceCount: number;
+  timeSpent: number;
+}
+
+export interface LearningFact {
   factId: number;
   packageId: number;
   factQuestion: string;
@@ -29,7 +38,7 @@ export interface LearningFact  {
   confidenceLevel: number;
 }
 
-export interface Statistics  {
+export interface Statistics {
   statId: number;
   packageId: number;
   lowConfidenceCount: number;
