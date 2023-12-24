@@ -1,7 +1,7 @@
 import * as express from 'express';
 import {Request, Response} from 'express';
 import {LearningFact, LearningPackage, Statistics} from "../database/Models"
-
+import {Op} from "sequelize";
 
 const statisticsRoutes = express.Router();
 
@@ -34,7 +34,7 @@ statisticsRoutes.get("/api/statisticsStartedPackages", async (req: Request, res:
         let packagesWithProgress: LearningPackage[] = await LearningPackage.findAll({
             where: {
                 packageProgress: {
-                    gt: 0
+                    [Op.gt]: 0
                 }
             }
         });
