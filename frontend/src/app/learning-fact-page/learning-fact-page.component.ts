@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LearningPackage, LearningFact,Statistics} from '../app.component';
+import {LearningPackage, LearningFact, Statistics, TimeHistory} from '../app.component';
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -17,10 +17,11 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
   showQuestion: boolean = true;
   learningSession: boolean = false;
   reviewSession: boolean = false;
-  factsSession:boolean= false;
+  factsSession: boolean = false;
   i: number = 0;
   timer: any;
-  timeSpent: number = 0;
+  totalTimeSpent: number = 0;
+  timeSpentNow: number = 0;
   learningLength: number = 0;
   lowConfidenceCount: number = 0;
   mediumConfidenceCount: number = 0;
@@ -41,6 +42,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
         this.learningPackage = res;
         this.getFacts();
         this.getStats();
+        this.getTotalTimeSpent();
       },
       error: (err) => {
         console.error(`Failed to fetch data for package ID ${packageId}`, err);
@@ -108,18 +110,16 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
   endSession() {
     this.learningSession = false;
     this.reviewSession = false;
-    this.factsSession=false;
+    this.factsSession = false;
     this.saveStats();
-    this.getPackage();
     clearTimeout(this.timer);
-
   }
 
   startlearningSession() {
     this.startTimer()
     this.learningSession = true;
     this.reviewSession = false;
-    this.factsSession=false;
+    this.factsSession = false;
     this.i = 0;
   }
 
@@ -127,13 +127,14 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     this.startTimer()
     this.reviewSession = true;
     this.learningSession = false;
-    this.factsSession=false;
+    this.factsSession = false;
     this.i = 0;
   }
 
   startTimer() {
     this.timer = setInterval(() => {
-      this.timeSpent++;
+      this.timeSpentNow++;
+      this.totalTimeSpent++;
     }, 1000);
   }
 
@@ -150,7 +151,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     switch (difficulty) {
       case "Easy":
         fact.confidenceLevel = 4;
-        value.setDate(value.getDate()+4);
+        value.setDate(value.getDate() + 4);
         fact.factNextReviewDate = value;
         this.highConfidenceCount++;
         break;
@@ -209,7 +210,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     fact.factTimesReviewed++;
   }
 
-  NextFactFactsSession() {
+  nextFactFactsSession() {
     this.facts[this.i].factTimesReviewed++;
     this.putFact(this.facts[this.i])
     if (this.i < this.facts.length - 1) {
@@ -226,21 +227,20 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     this.startTimer()
     this.learningSession = false;
     this.reviewSession = false;
-    this.factsSession=true;
+    this.factsSession = true;
     this.i = 0;
   }
 
   private saveStats() {
     this.httpClient.put<Statistics>("/api/statistic", {
       "packageId": this.learningPackage.packageId,
-      "timeSpent": this.timeSpent,
       "lowConfidenceCount": this.lowConfidenceCount,
       "mediumConfidenceCount": this.mediumConfidenceCount,
       "highConfidenceCount": this.highConfidenceCount
     })
       .subscribe({
         next: (res: Statistics) => {
-          this.timeSpent = res.timeSpent;
+          this.saveTimeHistory();
         },
         error: (error) => {
           console.log(error);
@@ -248,10 +248,25 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
       });
   }
 
+
+  private saveTimeHistory() {
+    this.httpClient.post<TimeHistory>("/api/timeHistory", {
+      "packageId": this.learningPackage.packageId,
+      "timeSpent": this.timeSpentNow,
+      "historyDate": new Date()
+    }).subscribe({
+      next: (timeHistory: TimeHistory) => {
+        this.refreshPackage();
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
+  }
+
   private getStats() {
     this.httpClient.get(`/api/statistic/${this.learningPackage.packageId}`).subscribe({
       next: (res: any) => {
-        this.timeSpent = res.timeSpent;
         this.lowConfidenceCount = res.lowConfidenceCount;
         this.mediumConfidenceCount = res.mediumConfidenceCount;
         this.highConfidenceCount = res.highConfidenceCount;
@@ -261,4 +276,30 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  private getTotalTimeSpent() {
+    this.httpClient.get(`/api/timeHistory/${this.learningPackage.packageId}`).subscribe({
+      next: (res: TimeHistory[] | any) => {
+        res.forEach((timeHistory: TimeHistory) => {
+          this.totalTimeSpent += timeHistory.timeSpent;
+        });
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+
+  private refreshPackage() {
+    this.httpClient.get(`/api/updateLearningPackage/${this.learningPackage.packageId}`).subscribe({
+      next: (res) => {
+        this.learningPackage = res;
+      },
+      error: (err) => {
+        console.error(`Failed to fetch data for package ID ${this.learningPackage.packageId}`, err);
+      }
+    });
+  }
+
+
 }
