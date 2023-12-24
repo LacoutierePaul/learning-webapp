@@ -18,7 +18,8 @@ export class StatisticsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getStartedPackages();
+    //this.getStartedPackages();
+    this.getStartedPackageStatistics();
     this.loadChart();
   }
 
@@ -33,11 +34,43 @@ export class StatisticsPageComponent implements OnInit {
     });
   }
 
+  getStartedPackageStatistics() {
+    this.httpClient.get<Statistics[]>("/api/statisticsStartedPackages").subscribe({
+      next: (res: Statistics[]) => {
+        this.statisticsStartedLearningPackages = res;
+        this.loadChart();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
+
   loadChart() {
     let categories = this.startedLearningPackages.map(learningPackage => (
       {packageName: learningPackage.packageName}
     ));
 
+    let series = [{
+      name: "Low confidence",
+      data: this.statisticsStartedLearningPackages.map(statistic => {
+        return statistic.lowConfidenceCount;
+      })
+    },
+      {
+        name: "Medium confidence",
+        data: this.statisticsStartedLearningPackages.map(statistic => {
+          return statistic.mediumConfidenceCount;
+        })
+      },
+      {
+        name: "Low confidence",
+        data: this.statisticsStartedLearningPackages.map(statistic => {
+          return statistic.highConfidenceCount;
+        })
+      },
+    ];
+    
     this.chartOptions = {
       chart: {
         type: 'bar'
@@ -64,7 +97,8 @@ export class StatisticsPageComponent implements OnInit {
             enabled: true
           }
         }
-      }
+      },
+      series: series
     }
     Highcharts.chart('chart-container', this.chartOptions);
   }
