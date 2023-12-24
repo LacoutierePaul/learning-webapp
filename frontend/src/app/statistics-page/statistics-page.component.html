@@ -1,3 +1,14 @@
 <div class="statisticsPageTitle p-5 mb-3 d-flex flex-column align-items-center">
   <h1 class="fw-bolder">Statistics</h1>
 </div>
+<div ngbDropdown class="d-inline-block">
+  <button type="button" class="btn btn-outline-primary" id="choosePackages" ngbDropdownToggle>
+    Choose a specific package
+  </button>
+  <div ngbDropdownMenu aria-labelledby="choosePackages">
+    <button ngbDropdownItem
+            *ngFor="let learningPackage of startedLearningPackages">{{ learningPackage.packageName }}
+    </button>
+  </div>
+</div>
+<div id="chart-container"></div>
