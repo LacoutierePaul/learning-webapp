@@ -2,41 +2,24 @@
   <a class="navbar-brand" href="#">Home</a>
 
   <ul class="navbar-nav mr-auto">
-    <!-- On crée le premier item Dropdown File -->
-    <!-- Item study now-->
     <li class="nav-item">
-      <a class="nav-link" href="#" routerLink="/study-page">Study Now</a>
+      <a class="nav-link" href="#" routerLink="/study-page">Browse packages</a>
     </li>
-
     <li class="nav-item">
-      <a class="nav-link" href="#">Select New Course</a>
+      <a class="nav-link" href="#" routerLink="/statistics">Statistics</a>
     </li>
-
-    <!-- Item - “Progresses Statistics” menu-item-->
-    <li class="nav-item">
-      <a class="nav-link" href="#" routerLink="/statistics">Progresses Statistics</a>
-    </li>
-
-
     <li ngbDropdown class="nav-item">
-      <a ngbDropdownToggle id="fileMenu" class="nav-link">File</a>
-      <div ngbDropdownMenu aria-labelledby="fileMenu">
-        <!-- On y ajoute les items-->
-        <a class="dropdown-item" routerLink="/">Lesson Edit Form</a>
-        <a class="dropdown-item" href="#">New</a>
-        <a class="dropdown-item" href="#">Export...</a>
+      <a ngbDropdownToggle id="createMenu" class="nav-link" href="#">Create</a>
+      <div ngbDropdownMenu aria-labelledby="createMenu">
+        <a class="dropdown-item" routerLink="/">Create a package</a>
+        <a class="dropdown-item" href="#">Create a fact for a package</a>
       </div>
-
     <li ngbDropdown class="nav-item">
-      <a ngbDropdownToggle id="helpMenu" class="nav-link" href="#">Help</a>
-      <div ngbDropdownMenu aria-labelledby="helpMenu">
-        <!-- On y ajoute les items-->
-        <a class="dropdown-item" href="#">Glossary</a>
-        <a class="dropdown-item" href="#">Documentation</a>
-        <a class="dropdown-item" href="#">About</a>
+      <a ngbDropdownToggle id="modifyMenu" class="nav-link" href="#">Modify</a>
+      <div ngbDropdownMenu aria-labelledby="modifyMenu">
+        <a class="dropdown-item" href="#">Modify a package</a>
+        <a class="dropdown-item" href="#">Modify a fact in a package</a>
       </div>
     </li>
-
-
   </ul>
 </nav>
