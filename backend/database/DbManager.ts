@@ -1,17 +1,17 @@
 import {DataTypes, Sequelize} from 'sequelize';
-import {LearningPackage, LearningFact, Statistics} from "./Models";
+import {LearningPackage, LearningFact, Statistics, TimeHistory} from "./Models";
 import * as fs from "fs";
 
 
-const sequelize = new Sequelize( {
+const sequelize = new Sequelize({
     host: 'localhost',
     dialect: 'postgres',
-    username:'learningDbUser',
-    password:'root',
-    database:'LearningDb'
+    username: 'learningDbUser',
+    password: 'root',
+    database: 'LearningDb'
 });
 
-export function connectDb() : void {
+export function connectDb(): void {
     sequelize.authenticate().then(() => {
         console.log("Connected to database");
     }).catch((error) => {
@@ -19,7 +19,7 @@ export function connectDb() : void {
     });
 }
 
-export async function createTables(){
+export async function createTables() {
     LearningPackage.init({
         packageId: {
             type: DataTypes.INTEGER,
@@ -46,7 +46,7 @@ export async function createTables(){
             type: DataTypes.BOOLEAN,
             allowNull: false
         }
-    }, { sequelize, tableName: "LearningPackage" });
+    }, {sequelize, tableName: "LearningPackage"});
 
     LearningFact.init({
         factId: {
@@ -86,11 +86,12 @@ export async function createTables(){
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-    }, { sequelize, tableName: "LearningFact" });
+    }, {sequelize, tableName: "LearningFact"});
 
     Statistics.init({
         statId: {
             type: DataTypes.INTEGER,
+            autoIncrement: true,
             primaryKey: true,
         },
         packageId: {
@@ -117,15 +118,42 @@ export async function createTables(){
             type: DataTypes.INTEGER,
             allowNull: false,
         }
-    }, { sequelize, tableName: "Statistics" });
+    }, {sequelize, tableName: "Statistics"});
+
+    TimeHistory.init({
+        historyId: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        packageId: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            references: {
+                model: LearningPackage,
+                key: 'packageId'
+            }
+        },
+        timeSpent: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        historyDate: {
+            type: DataTypes.DATE,
+            allowNull: false
+        }
+    }, {sequelize, tableName: "TimeHistory"})
 
     await LearningPackage.sync({force: false});
-    console.log("Member table created");
+    console.log("LearningPackage table created");
 
     await LearningFact.sync({force: false});
     console.log("LearningFact table created");
 
     await Statistics.sync({force: false});
     console.log("Statistics table created");
+
+    await TimeHistory.sync({force: false});
+    console.log("TimeHistory table created");
 
 }
