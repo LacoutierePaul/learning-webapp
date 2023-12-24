@@ -17,6 +17,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {LearningFactPageComponent} from './learning-fact-page/learning-fact-page.component';
 import {FormsModule} from "@angular/forms";
 import {StatisticsPageComponent} from "./statistics-page/statistics-page.component";
+import {HighchartsChartModule} from "highcharts-angular";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {StatisticsPageComponent} from "./statistics-page/statistics-page.compone
     MatIconModule,
     MatProgressBarModule,
     MatCheckboxModule,
-    FormsModule
+    FormsModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
