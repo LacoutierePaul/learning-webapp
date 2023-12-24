@@ -74,7 +74,8 @@ export class StatisticsPageComponent implements OnInit {
     this.chartOptions = {
       chart: {
         type: 'bar',
-        height: "50%"
+        height: "80%",
+        width: 1000
       },
       title: {
         text: 'Confidence counts by packages'
