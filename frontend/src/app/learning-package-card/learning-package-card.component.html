@@ -10,9 +10,18 @@
   </mat-card-header>
   <mat-card-content class="mt-2">{{learningPackage.packageDescription}}</mat-card-content>
   <mat-card-actions class="mt-2">
-    <button class="btn btn-primary mt-2">Go to course</button>
+    <button type ="button" class="btn btn-primary mt-2" (click)="goToLearningFactPage(learningPackage.packageId)">Go to course
+      <span class="badge bg-white text-black" style="margin-left: 5px;">{{length}}</span></button>
   </mat-card-actions>
+
   <mat-card-footer class="ps-2 mt-2">
-    <mat-progress-bar mode="determinate" [value]="learningPackage.packageProgress"></mat-progress-bar>
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped"
+           [ngStyle]="{'width': learningPackage.packageProgress + '%', 'background-color': getProgressBarColor()}"
+           role="progressbar"
+           aria-valuemin="0" aria-valuemax="100">{{learningPackage.packageProgress}}%
+      </div>
+    </div>
   </mat-card-footer>
 </mat-card>
+

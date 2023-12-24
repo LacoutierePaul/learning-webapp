@@ -14,12 +14,25 @@ export class StudyPageComponent implements OnInit{
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit(): void {
-      this.getLessons(false);
+      this.getUpdatedLessons();
   }
 
   getLessons(onlyFavorites: boolean) {
-    let apiUrl = onlyFavorites ? "/api/learningPackage/favorites" : "/api/learningPackage";
+    let apiUrl = onlyFavorites ? "/api/learningPackageFavorites" : "/api/learningPackage";
     this.httpClient.get<LearningPackage[]>(apiUrl).subscribe({
+      next: (res) => {
+        this.learningPackages = res;
+        this.statusMessage = "Data loaded successfully!";
+      },
+      error: (err) => {
+        console.error('Failed to query http /api/learning-package', err);
+        this.statusMessage = "Failed to load data";
+      }
+    });
+  }
+
+  getUpdatedLessons() {
+    this.httpClient.get<LearningPackage[]>("/api/allUpdatedLearningPackage").subscribe({
       next: (res) => {
         this.learningPackages = res;
         this.statusMessage = "Data loaded successfully!";

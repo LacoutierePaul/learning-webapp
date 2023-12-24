@@ -22,8 +22,16 @@ export class LearningFact extends Model {
 
 export class Statistics extends Model {
     declare statId: number;
-    declare factId: number;
+    declare packageId: number;
     declare lowConfidenceCount: number;
     declare mediumConfidenceCount: number;
     declare highConfidenceCount: number;
+    declare timeSpent: number;
+}
+
+export class TimeHistory extends Model {
+    declare historyId: number;
+    declare packageId: number;
+    declare timeSpent: number;
+    declare historyDate: Date;
 }

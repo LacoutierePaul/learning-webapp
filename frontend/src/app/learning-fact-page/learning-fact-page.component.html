@@ -1,0 +1,136 @@
+<div class="homePageTitle p-5 mb-3 d-flex flex-column align-items-center">
+  <h1 class="fw-bolder">Learning {{ learningPackage.packageName }}</h1>
+</div>
+
+<div class="container-fluid p-5">
+  <div class="row">
+    <!-- Package Information-->
+    <div class="col-md-3 border p-3 package-info">
+      <h3>Package Information</h3>
+      <p><b>Name</b>: {{ learningPackage.packageName }}</p>
+      <p><b>Description</b>: {{ learningPackage.packageDescription }}</p>
+      <p><b>Difficulty</b>: {{ learningPackage.packageDifficulty }}</p>
+      <p><b>Progression</b> : {{ learningPackage.packageProgress }}%</p>
+      <p><b>Total number of facts</b> : {{ learningLength }}</p>
+      <p>
+        <b>{{ !isLearningButtonDisabled() ? "Number of facts to learn in the next session: " + learningFacts.length : "Nothing to learn for this package" }}</b>
+      </p>
+      <p>
+        <b>{{ !isReviewButtonDisabled() ? "Number of facts to review in the next session: " + reviewFacts.length : "Nothing to review for this package" }}</b>
+      </p>
+      <p><b>Time spent on the package</b> : {{ timeSpent }} seconds</p>
+      <div *ngIf="learningSession == reviewSession && factsSession==learningSession" class="d-flex gap-3">
+        <button class="btn btn-primary fw-bolder" (click)="startlearningSession() "
+                [disabled]="isLearningButtonDisabled()">
+          Start learning
+        </button>
+        <button class="btn btn-info fw-bolder text-white" (click)="startReviewSession() "
+                [disabled]="isReviewButtonDisabled()">Start review
+        </button>
+        <button class="btn btn-success fw-bolder text-white" (click)="startFactsSession() " >See all facts
+        </button>
+      </div>
+    </div>
+
+    <!-- Card with question -->
+    <div *ngIf="learningSession" class="col-md-6">
+      <div class="row justify-content-center">
+        <div class="col-md-9 text-center">
+          <h4>Question {{ i + 1 }} / {{ learningFacts.length }}</h4>
+          <div class="card text-center" style="border: 1px solid #ddd;">
+            <div class="card-body">
+              <h1
+                class="card-title">{{ showQuestion ? learningFacts[i].factQuestion : learningFacts[i].factAnswer }}</h1>
+              <p></p>
+              <a class="btn btn-info stretched-link" style="background-color : bisque; border: 1px solid bisque;;" (click)="changeAnswer()">See
+                the {{ showQuestion ? 'answer' : 'question' }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-3  text-center">
+          <h6>Difficulty</h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <div class="btn-group" role="group" aria-label="Difficulty">
+            <button type="button" class="btn btn-outline-warning" (click)="nextFact('Review')">To Review</button>
+            <button type="button" class="btn btn-outline-warning" (click)="nextFact('Correct')">Correct</button>
+            <button type="button" class="btn btn-outline-warning" (click)="nextFact('Easy')">Easy</button>
+          </div>
+        </div>
+        <div class="col-md-3 text-center">
+          <button class="btn btn-danger" (click)="endSession()">Stop Session</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="reviewSession" class="col-md-6">
+      <div class="row justify-content-center">
+        <div class="col-md-9 text-center">
+          <h4>Question {{ i + 1 }} / {{ reviewFacts.length }}</h4>
+          <div class="card text-center" style="border: 1px solid #ddd;">
+            <div class="card-body">
+              <h1 class="card-title">{{ showQuestion ? reviewFacts[i].factQuestion : reviewFacts[i].factAnswer }}</h1>
+              <p></p>
+              <a class="btn btn-info stretched-link" style="background-color : bisque; border: 1px solid bisque;;" (click)="changeAnswer()">See
+                the {{ showQuestion ? 'answer' : 'question' }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-3  text-center">
+          <h6>Difficulty</h6>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-md-12 text-center">
+          <div class="btn-group" role="group" aria-label="Difficulty">
+            <button type="button" class="btn btn-outline-warning" (click)="nextFact('Review')">To Review</button>
+            <button type="button" class="btn btn-outline-warning" (click)="nextFact('Hard')">Hard</button>
+            <button type="button" class="btn btn-outline-warning" (click)="nextFact('Correct')">Correct</button>
+            <button type="button" class="btn btn-outline-warning" (click)="nextFact('Easy')">Easy</button>
+          </div>
+        </div>
+        <div class="col-md-3 text-center">
+          <button class="btn btn-danger" (click)="endSession()">Stop Session</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="factsSession" class="col-md-6">
+      <div class="row justify-content-center">
+        <div class="col-md-9 text-center">
+          <h4>Question {{ i + 1 }} / {{ facts.length }}</h4>
+          <div class="card text-center" style="border: 1px solid #ddd;">
+            <div class="card-body">
+              <h1 class="card-title">{{ showQuestion ? facts[i].factQuestion : facts[i].factAnswer }}</h1>
+              <p></p>
+              <a class="btn btn-info stretched-link" style="background-color : bisque; border: 1px solid bisque;;" (click)="changeAnswer()">See
+                the {{ showQuestion ? 'answer' : 'question' }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-3  text-center">
+          <h6>Difficulty</h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <div class="btn-group" role="group" aria-label="Difficulty">
+            <button type="button" class="btn btn-outline-warning" (click)="NextFactFactsSession()">Next</button>
+          </div>
+        </div>
+        <div class="col-md-3 text-center">
+          <button class="btn btn-danger" (click)="endSession()">Stop Session</button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
