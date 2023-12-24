@@ -11,9 +11,11 @@
     </button>
     <div ngbDropdownMenu aria-labelledby="choosePackages">
       <button ngbDropdownItem
-              *ngFor="let learningPackage of startedLearningPackages">{{ learningPackage.packageName }}
+              *ngFor="let learningPackage of startedLearningPackages"
+              (click)="loadTimeChart(learningPackage.packageId)">{{ learningPackage.packageName }}
       </button>
     </div>
   </div>
+  <div id="time-container" class="d-inline-block p-4"></div>
 </div>
 

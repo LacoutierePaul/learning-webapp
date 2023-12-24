@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {LearningPackage, Statistics} from "../app.component";
+import {LearningPackage, Statistics, TimeHistory} from "../app.component";
 import * as Highcharts from 'highcharts';
 
 @Component({
@@ -12,7 +12,7 @@ export class StatisticsPageComponent implements OnInit {
 
   startedLearningPackages: LearningPackage[] = [];
   statisticsStartedLearningPackages: Statistics[] = [];
-  chartOptions: {} = {};
+
 
   constructor(private httpClient: HttpClient) {
   }
@@ -38,15 +38,15 @@ export class StatisticsPageComponent implements OnInit {
     this.httpClient.get<Statistics[]>("/api/statisticsStartedPackages").subscribe({
       next: (res: Statistics[]) => {
         this.statisticsStartedLearningPackages = res;
-        this.loadChart();
+        this.loadConfidenceChart();
       },
       error: (error) => {
         console.error(error);
       }
-    })
+    });
   }
 
-  loadChart() {
+  loadConfidenceChart() {
     let categories = this.startedLearningPackages.map(learningPackage => (
       learningPackage.packageName
     ));
@@ -71,7 +71,7 @@ export class StatisticsPageComponent implements OnInit {
       }
     ];
 
-    this.chartOptions = {
+    let chartOptions: {} = {
       chart: {
         type: 'bar',
         height: "80%",
@@ -99,6 +99,74 @@ export class StatisticsPageComponent implements OnInit {
       },
       series: series
     }
-    Highcharts.chart('chart-container', this.chartOptions);
+    Highcharts.chart('chart-container', chartOptions);
+  }
+
+
+  loadTimeChart(packageId: number) {
+    let data: any[] = []
+    this.httpClient.get(`/api/timeHistory/${packageId}`).subscribe({
+      next: (timeHistories: TimeHistory[] | any) => {
+        timeHistories.forEach((timeHistory: TimeHistory) => {
+          data.push([timeHistory.historyDate.getTime(), timeHistory.timeSpent]);
+        });
+        this.createTimeChart(data)
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
+  }
+
+  createTimeChart(data: any[]) {
+    let timeChartOptions: {} = {
+      chart: {
+        zoomType: 'x'
+      },
+      title: {
+        text: 'Time spent on the package over time',
+        align: 'left'
+      },
+      xAxis: {
+        type: 'datetime'
+      },
+      yAxis: {
+        title: {
+          text: 'Time spent (in seconds)'
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        area: {
+          fillColor: {
+            linearGradient: {
+              x1: 0,
+              y1: 0,
+              x2: 0,
+              y2: 1
+            }
+          },
+          marker: {
+            radius: 2
+          },
+          lineWidth: 1,
+          states: {
+            hover: {
+              lineWidth: 1
+            }
+          },
+          threshold: null
+        }
+      },
+
+      series: [{
+        type: 'area',
+        name: 'Time spent on the package',
+        data: data
+      }]
+    }
+    Highcharts.chart('time-container', timeChartOptions);
   }
 }
