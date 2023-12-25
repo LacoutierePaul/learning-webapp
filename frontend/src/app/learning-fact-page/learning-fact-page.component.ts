@@ -10,7 +10,14 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class LearningFactPageComponent implements OnInit, OnDestroy {
 
-  learningPackage: any;
+  learningPackage: LearningPackage = {
+    packageId: 0,
+    packageName: "",
+    packageDescription: "",
+    packageProgress: 0,
+    packageDifficulty: 0,
+    packageFavorite: true,
+  };
   facts: LearningFact[] = []; // All facts including learning and review facts
   learningFacts: LearningFact[] = []; // Facts that the user has to learn
   reviewFacts: LearningFact[] = []; // Facts that the user has already learned and needs to review
@@ -37,8 +44,8 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
 
   getPackage() {
     const packageId = this.route.snapshot.paramMap.get('id');
-    this.httpClient.get(`/api/updateLearningPackage/${packageId}`).subscribe({
-      next: (res) => {
+    this.httpClient.get(`/api/learningPackage/${packageId}`).subscribe({
+      next: (res: LearningPackage | any) => {
         this.learningPackage = res;
         this.getFacts();
         this.getStats();
@@ -261,15 +268,17 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
       error: (err) => {
         console.error(err);
       }
-    })
+    });
   }
 
   private getStats() {
     this.httpClient.get(`/api/statistic/${this.learningPackage.packageId}`).subscribe({
-      next: (res: any) => {
-        this.lowConfidenceCount = res.lowConfidenceCount;
-        this.mediumConfidenceCount = res.mediumConfidenceCount;
-        this.highConfidenceCount = res.highConfidenceCount;
+      next: (res: Statistics | any) => {
+        if (res) {
+          this.lowConfidenceCount = res.lowConfidenceCount;
+          this.mediumConfidenceCount = res.mediumConfidenceCount;
+          this.highConfidenceCount = res.highConfidenceCount;
+        }
       },
       error: (err) => {
         console.error(`Failed to fetch data for package ID ${this.learningPackage.packageId}`, err);
@@ -292,7 +301,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
 
   private refreshPackage() {
     this.httpClient.get(`/api/updateLearningPackage/${this.learningPackage.packageId}`).subscribe({
-      next: (res) => {
+      next: (res: LearningPackage | any) => {
         this.learningPackage = res;
       },
       error: (err) => {
