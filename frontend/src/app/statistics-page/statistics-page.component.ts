@@ -105,11 +105,12 @@ export class StatisticsPageComponent implements OnInit {
 
   loadTimeChart(packageId: number) {
     let data: any[] = []
-    this.httpClient.get(`/api/timeHistory/${packageId}`).subscribe({
-      next: (timeHistories: TimeHistory[] | any) => {
+    this.httpClient.get<TimeHistory[]>(`/api/timeHistory/${packageId}`).subscribe({
+      next: (timeHistories: TimeHistory[]) => {
         timeHistories.forEach((timeHistory: TimeHistory) => {
-          data.push([timeHistory.historyDate.getTime(), timeHistory.timeSpent]);
+          data.push([new Date(timeHistory.historyDate).getTime(), timeHistory.timeSpent]);
         });
+        console.log(data);
         this.createTimeChart(data)
       },
       error: err => {
@@ -146,7 +147,11 @@ export class StatisticsPageComponent implements OnInit {
               y1: 0,
               x2: 0,
               y2: 1
-            }
+            },
+            stops: [
+              [0, "#2caffe"],
+              [1, Highcharts.color("#2caffe").setOpacity(0).get('rgba')]
+            ]
           },
           marker: {
             radius: 2
@@ -163,7 +168,7 @@ export class StatisticsPageComponent implements OnInit {
 
       series: [{
         type: 'area',
-        name: 'Time spent on the package',
+        name: 'Time spent (seconds)',
         data: data
       }]
     }
