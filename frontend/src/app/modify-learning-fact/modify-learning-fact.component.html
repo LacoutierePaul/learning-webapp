@@ -7,12 +7,13 @@
     <div class="form-group">
       <label for="packageSelect">Select Package:</label>
       <select id="packageSelect" class="form-control"
-              [(ngModel)]="modifiedFact.packageId" name="packageId" required>
-        <option *ngFor="let package of learningPackages" [ngValue]="package.packageId">
-          {{ package.packageName }}
+              [(ngModel)]="selectedPackageId" (change)="onPackageChange()" name="packageId" required>
+        <option *ngFor="let pack of learningPackages" [ngValue]="pack.packageId">
+          {{ pack.packageName }}
         </option>
       </select>
     </div>
+
 
     <!-- Fact Selection -->
     <div class="form-group">
