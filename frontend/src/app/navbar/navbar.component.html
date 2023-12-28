@@ -11,14 +11,21 @@
     <li ngbDropdown class="nav-item">
       <a ngbDropdownToggle id="createMenu" class="nav-link" href="#">Create</a>
       <div ngbDropdownMenu aria-labelledby="createMenu">
-        <a class="dropdown-item" routerLink="/create-package-card">Create a package</a>
-        <a class="dropdown-item" routerLink="/create-learning-fact">Create a fact for a package</a>
+        <a class="dropdown-item" href="#" routerLink="/create-package-card">Create a package</a>
+        <a class="dropdown-item" href="#" routerLink="/create-learning-fact">Create a fact for a package</a>
       </div>
     <li ngbDropdown class="nav-item">
       <a ngbDropdownToggle id="modifyMenu" class="nav-link" href="#">Modify</a>
       <div ngbDropdownMenu aria-labelledby="modifyMenu">
-        <a class="dropdown-item" href="#">Modify a package</a>
-        <a class="dropdown-item" href="#">Modify a fact in a package</a>
+        <a class="dropdown-item" href="#" routerLink="/modify-learning-package">Modify a package</a>
+        <a class="dropdown-item" href="#" routerLink="/modify-learning-fact">Modify a fact in a package</a>
+      </div>
+    </li>
+    <li ngbDropdown class="nav-item">
+      <a ngbDropdownToggle id="deleteMenu" class="nav-link" href="#">Delete</a>
+      <div ngbDropdownMenu aria-labelledby="deleteMenu">
+        <a class="dropdown-item" href="#" routerLink="/delete-learning-package">Delete a package</a>
+        <a class="dropdown-item" href="#" routerLink="/delete-learning-fact">Delete a fact in a package</a>
       </div>
     </li>
   </ul>

@@ -6,6 +6,10 @@ import {LearningFactPageComponent} from "./learning-fact-page/learning-fact-page
 import {StatisticsPageComponent} from "./statistics-page/statistics-page.component";
 import {CreatePackageCardComponent } from './create-package-card/create-package-card.component';
 import {CreateLearningFactComponent} from "./create-learning-fact/create-learning-fact.component";
+import {DeleteLearningFactComponent} from "./delete-learning-fact/delete-learning-fact.component";
+import {DeleteLearningPackageComponent} from "./delete-learning-package/delete-learning-package.component";
+import {ModifyLearningFactComponent} from "./modify-learning-fact/modify-learning-fact.component";
+import {ModifyLearningPackageComponent} from "./modify-learning-package/modify-learning-package.component";
 
 const routes: Routes = [
   {path: 'study-page', component: StudyPageComponent},
@@ -14,6 +18,10 @@ const routes: Routes = [
   {path: 'statistics', component: StatisticsPageComponent},
   {path: 'create-package-card', component: CreatePackageCardComponent },
   {path: 'create-learning-fact', component: CreateLearningFactComponent},
+  {path: 'delete-learning-fact', component:DeleteLearningFactComponent},
+  {path: 'delete-learning-package', component:DeleteLearningPackageComponent},
+  {path: 'modify-learning-package', component:ModifyLearningPackageComponent},
+  {path: 'modify-learning-fact', component: ModifyLearningFactComponent},
 ];
 
 @NgModule({
