@@ -13,25 +13,37 @@ export class ModifyLearningFactComponent implements OnInit {
   learningPackages: LearningPackage[] = [];
   learningFacts: LearningFact[] = [];
   selectedFactId: number = 0;
+  selectedPackageId: number = 0;
 
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit() {
     this.fetchLearningPackages();
-    this.fetchLearningFacts();
   }
 
-  fetchLearningFacts() {
-    this.httpClient.get<LearningFact[]>('/api/learningFact').subscribe({
-      next: (facts) => this.learningFacts = facts,
-      error: (error) => console.error('Error fetching learning facts', error)
-    });
+  onPackageChange() {
+    this.selectedFactId = 0;
+    this.fetchFactsForPackage(this.selectedPackageId);
+  }
+
+  fetchFactsForPackage(packageId: number) {
+    if (packageId) {
+      this.httpClient.get<LearningFact[]>(`/api/allLearningFact/${packageId}`).subscribe({
+        next: (facts) => this.learningFacts = facts,
+        error: (error) => console.error('Error fetching facts for package', error)
+      });
+    } else {
+      this.learningFacts = [];
+    }
   }
 
   loadFactDetails() {
     if (this.selectedFactId) {
       this.httpClient.get<LearningFact>(`/api/learningFact/${this.selectedFactId}`).subscribe({
-        next: (fact) => this.modifiedFact = fact,
+        next: (fact) => {
+          this.modifiedFact = fact;
+          //this.selectedPackageId = fact.packageId; // Mise à jour du packageId sélectionné
+        },
         error: (error) => console.error('Error fetching fact details', error)
       });
     }
@@ -39,26 +51,31 @@ export class ModifyLearningFactComponent implements OnInit {
 
   fetchLearningPackages() {
     this.httpClient.get<LearningPackage[]>('/api/learningPackage').subscribe({
-      next: (packages) => this.learningPackages = packages,
+      next: (pack) => this.learningPackages = pack,
       error: (error) => console.error('Error fetching learning packages', error)
     });
   }
 
   modifyFact() {
-    if (this.modifiedFact && this.selectedFactId) {
-      // Ensure the factId and packageId are correctly set
+    if (this.selectedFactId && this.modifiedFact) {
       this.modifiedFact.factId = this.selectedFactId;
-      this.modifiedFact.packageId = this.modifiedFact.packageId || 0;  // Example, set to 0 if not set
+      this.modifiedFact.packageId = this.selectedPackageId;
 
+      // Send the updated fact to the server
       this.httpClient.put<LearningFact>(`/api/learningFact`, this.modifiedFact).subscribe({
         next: (response) => {
           console.log('Fact modified successfully', response);
+          // Reset the form after successful modification
           this.resetFactForm();
         },
-        error: (error) => console.error('Error modifying fact', error)
+        error: (error) => {
+          console.error('Error modifying fact', error);
+          // Optionally, handle the error in a user-friendly way
+        }
       });
     } else {
-      console.error('No fact is selected for modification');
+      console.error('No fact is selected or the fact data is incomplete for modification');
+      // Optionally, inform the user that a fact must be selected for modification
     }
   }
 
@@ -66,5 +83,7 @@ export class ModifyLearningFactComponent implements OnInit {
   resetFactForm() {
     this.modifiedFact = {} as LearningFact;
     this.selectedFactId = 0;
+    this.selectedPackageId = 0;
   }
+
 }
