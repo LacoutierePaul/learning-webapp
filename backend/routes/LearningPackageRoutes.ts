@@ -159,5 +159,22 @@ learningPackageRoutes.get("/api/allUpdatedLearningPackage", async (req: Request,
     }
 });
 
+learningPackageRoutes.delete("/api/learningPackage/:idPackage", async (req: Request, res: Response) => {
+    try {
+        const idPackage = +req.params.idPackage;
+
+        let learningPackage:LearningPackage=await LearningPackage.findOne({
+            where: {packageId:idPackage}});
+        if(learningPackage){
+            await learningPackage.destroy();
+            res.status(200).send({message: "Package deleted"});
+        } else{
+            res.status(404).send({error: 'Fact entity not found for those ID , package : ' + idPackage});
+        }
+
+    } catch (error) {
+        res.status(500).send("Could not query the database");
+    }
+});
 
 export default learningPackageRoutes;

@@ -1,1 +1,9 @@
-<p>delete-learning-package works!</p>
+<div>
+    <label for="packageSelect">Select Package:</label>
+    <select id="packageSelect" [(ngModel)]="selectedPackageId">
+        <option *ngFor="let package of packages" [ngValue]="package.packageId">
+            {{ package.packageName }}
+        </option>
+    </select>
+    <button (click)="deletePackage()" [disabled]="selectedPackageId === null">Delete Selected Package</button>
+</div>
