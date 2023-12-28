@@ -1,1 +1,9 @@
-<p>delete-learning-fact works!</p>
+<div>
+    <label for="factSelect">Select Fact:</label>
+    <select id="factSelect" [(ngModel)]="selectedFact">
+        <option *ngFor="let fact of facts" [ngValue]="fact">
+            {{ fact.factQuestion }}
+        </option>
+    </select>
+    <button (click)="deleteFact()" [disabled]="!selectedFact">Delete Selected Fact</button>
+</div>
