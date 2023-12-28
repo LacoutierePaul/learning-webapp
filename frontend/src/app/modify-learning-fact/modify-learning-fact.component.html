@@ -1,1 +1,48 @@
 <p>modify-learning-fact works!</p>
+<div class="modify-fact-form">
+  <h2>Modify An Existing Learning Fact</h2>
+  <form (ngSubmit)="modifyFact()">
+
+    <!-- Package Selection -->
+    <div class="form-group">
+      <label for="packageSelect">Select Package:</label>
+      <select id="packageSelect" class="form-control"
+              [(ngModel)]="modifiedFact.packageId" name="packageId" required>
+        <option *ngFor="let package of learningPackages" [ngValue]="package.packageId">
+          {{ package.packageName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Fact Selection -->
+    <div class="form-group">
+      <label for="factSelect">Select Fact:</label>
+      <select id="factSelect" class="form-control"
+              [(ngModel)]="selectedFactId" (change)="loadFactDetails()" name="factSelect" required>
+        <option *ngFor="let fact of learningFacts" [ngValue]="fact.factId">
+          {{ fact.factQuestion }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Fact Question Input -->
+    <div class="form-group">
+      <label for="factQuestion">Fact Question:</label>
+      <input type="text" id="factQuestion" class="form-control"
+             [(ngModel)]="modifiedFact.factQuestion" name="factQuestion" required>
+    </div>
+
+    <!-- Fact Answer Input -->
+    <div class="form-group">
+      <label for="factAnswer">Fact Answer:</label>
+      <input type="text" id="factAnswer" class="form-control"
+             [(ngModel)]="modifiedFact.factAnswer" name="factAnswer" required>
+    </div>
+
+
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Modify Fact</button>
+    <button type="button" class="btn btn-secondary" (click)="resetFactForm()">Reset</button>
+  </form>
+</div>
