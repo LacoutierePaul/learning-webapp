@@ -39,7 +39,8 @@ export class DeleteLearningPackageComponent implements OnInit {
             error: (error) => console.error('Error deleting fact', error)
           });
         });
-
+        // Now we delete all the statistics associated with the package
+        this.deleteStatistic()
         // Finally, delete the package itself
         this.deleteEntirePackage();
       },
@@ -55,6 +56,13 @@ export class DeleteLearningPackageComponent implements OnInit {
         this.fetchPackages(); // Refresh the list of packages
       },
       error: (error) => console.error('Error deleting package', error)
+    });
+  }
+
+  deleteStatistic(){
+    this.httpClient.delete(`/api/statistic/${this.selectedPackageId}`).subscribe({
+      next:()=> {console.log(`Statistics associated with the package id ${this.selectedPackageId} deleted`);},
+      error: (error) => console.error('Error deleting statistic', error)
     });
   }
 }

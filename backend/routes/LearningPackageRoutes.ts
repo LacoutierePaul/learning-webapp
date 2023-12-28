@@ -167,13 +167,13 @@ learningPackageRoutes.delete("/api/learningPackage/:idPackage", async (req: Requ
             where: {packageId:idPackage}});
         if(learningPackage){
             await learningPackage.destroy();
-            res.status(200).send({message: "Package deleted"});
+            res.status(200).send({message: 'Package deleted'});
         } else{
-            res.status(404).send({error: 'Fact entity not found for those ID , package : ' + idPackage});
+            res.status(404).send({error: 'Package entity not found for this ID , package : ' + idPackage});
         }
 
     } catch (error) {
-        res.status(500).send("Could not query the database");
+        res.status(500).send(error);
     }
 });
 
