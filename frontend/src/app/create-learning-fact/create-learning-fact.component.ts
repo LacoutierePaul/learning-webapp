@@ -17,7 +17,7 @@ export class CreateLearningFactComponent implements OnInit {
         factTimesReviewed: 0,
         factLastReviewedDate: new Date(),
         factNextReviewDate: new Date(),
-        confidenceLevel: 0
+        confidenceLevel: 1
     };
 
     learningPackages: LearningPackage[] = [];
@@ -54,7 +54,7 @@ export class CreateLearningFactComponent implements OnInit {
             factTimesReviewed: 0,
             factLastReviewedDate: new Date(),
             factNextReviewDate: new Date(),
-            confidenceLevel: 0
+            confidenceLevel: 1
         };
     }
 }
