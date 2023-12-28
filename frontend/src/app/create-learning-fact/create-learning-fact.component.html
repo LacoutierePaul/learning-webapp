@@ -44,6 +44,16 @@
              [(ngModel)]="newFact.confidenceLevel" name="confidenceLevel">
     </div>
 
+    <div class="form-group">
+      <label for="packageSelect">Select Package:</label>
+      <select id="packageSelect" class="form-control"
+              [(ngModel)]="newFact.packageId" name="packageId" required>
+        <option *ngFor="let package of learningPackages" [ngValue]="package.packageId">
+          {{ package.packageName }}
+        </option>
+      </select>
+    </div>
+
     <!-- Submit Button -->
     <button type="submit" class="btn btn-primary">Create Fact</button>
   </form>

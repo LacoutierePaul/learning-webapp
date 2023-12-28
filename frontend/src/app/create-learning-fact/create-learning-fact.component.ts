@@ -1,45 +1,60 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LearningFact } from '../app.component'; // Adjust the import path as necessary
+import { LearningFact } from '../app.component';
+import {LearningPackage} from "../app.component";
 
 @Component({
   selector: 'app-create-learning-fact',
   templateUrl: './create-learning-fact.component.html',
   styleUrls: ['./create-learning-fact.component.css']
 })
+export class CreateLearningFactComponent implements OnInit {
 
-export class CreateLearningFactComponent {
+    newFact: Omit<LearningFact, 'factId'> = {
+        packageId: 0,
+        factQuestion: '',
+        factAnswer: '',
+        factTimesReviewed: 0,
+        factLastReviewedDate: new Date(),
+        factNextReviewDate: new Date(),
+        confidenceLevel: 0
+    };
 
-  newFact: LearningFact = {
-    factId: 0,
-    packageId: 0, // This can be set based on the selected package
-    factQuestion: '',
-    factAnswer: '',
-    factTimesReviewed: 0,
-    factLastReviewedDate: new Date(),
-    factNextReviewDate: new Date(),
-    confidenceLevel: 0,
-  };
+    learningPackages: LearningPackage[] = [];
 
-  constructor(private httpClient: HttpClient) {}
+    constructor(private httpClient: HttpClient) {}
 
-  createFact() {
-    // Add your API endpoint here
-    this.httpClient.post<LearningFact>('/api/learningFact', this.newFact).subscribe({
-      next: (response) => {
-        console.log('Fact created successfully', response);
+    ngOnInit() {
+        this.fetchLearningPackages();
+    }
+
+    fetchLearningPackages() {
+        this.httpClient.get<LearningPackage[]>('/api/learningPackage').subscribe({
+            next: (packages) => this.learningPackages = packages,
+            error: (error) => console.error('Error fetching learning packages', error)
+        });
+    }
+
+    createFact() {
+        this.httpClient.post<LearningFact>('/api/learningFact', this.newFact).subscribe({
+            next: (response) => {
+                console.log('Fact created successfully', response);
+                // Reset the form or handle success
+                this.resetFactForm();
+            },
+            error: (error) => console.error('Error creating fact', error)
+        });
+    }
+
+    resetFactForm() {
         this.newFact = {
-          factId: 0,
-          packageId: 0, // This can be set based on the selected package
-          factQuestion: '',
-          factAnswer: '',
-          factTimesReviewed: 0,
-          factLastReviewedDate: new Date(),
-          factNextReviewDate: new Date(),
-          confidenceLevel: 0,
+            packageId: 0,
+            factQuestion: '',
+            factAnswer: '',
+            factTimesReviewed: 0,
+            factLastReviewedDate: new Date(),
+            factNextReviewDate: new Date(),
+            confidenceLevel: 0
         };
-      },
-      error: (error) => console.error('Error creating fact', error)
-    });
-  }
+    }
 }
