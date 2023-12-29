@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { LearningPackage, LearningFact } from '../app.component'; // Adjust import path as needed
+import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {LearningPackage, LearningFact} from '../app.component'; // Adjust import path as needed
 
 @Component({
   selector: 'app-delete-learning-package',
@@ -10,7 +10,8 @@ export class DeleteLearningPackageComponent implements OnInit {
   packages: LearningPackage[] = [];
   selectedPackageId: number | null = null; // ID of the selected package
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+  }
 
   ngOnInit() {
     this.fetchPackages();
@@ -29,22 +30,14 @@ export class DeleteLearningPackageComponent implements OnInit {
       return;
     }
 
-    // First, fetch all facts associated with the package
-    this.httpClient.get<LearningFact[]>(`/api/allLearningFact/${this.selectedPackageId}`).subscribe({
-      next: (facts) => {
-        // Then, delete each fact
-        facts.forEach(fact => {
-          this.httpClient.delete(`/api/learningFact/${this.selectedPackageId}/${fact.factId}`).subscribe({
-            next: () => console.log(`Fact with ID ${fact.factId} deleted successfully`),
-            error: (error) => console.error('Error deleting fact', error)
-          });
-        });
-        // Now we delete all the statistics associated with the package
-        this.deleteStatistic()
-        // Finally, delete the package itself
-        this.deleteEntirePackage();
+    // We delete each fact from the selected package
+    this.httpClient.delete(`/api/learningFact/${this.selectedPackageId}`).subscribe({
+      next: (res: string | any) => {
+        this.deleteStatistic();
       },
-      error: (error) => console.error('Error fetching facts for package', error)
+      error: (err) => {
+        console.error(err);
+      }
     });
   }
 
@@ -59,9 +52,11 @@ export class DeleteLearningPackageComponent implements OnInit {
     });
   }
 
-  deleteStatistic(){
+  deleteStatistic() {
     this.httpClient.delete(`/api/statistic/${this.selectedPackageId}`).subscribe({
-      next:()=> {console.log(`Statistics associated with the package id ${this.selectedPackageId} deleted`);},
+      next: () => {
+        this.deleteEntirePackage();
+      },
       error: (error) => console.error('Error deleting statistic', error)
     });
   }
