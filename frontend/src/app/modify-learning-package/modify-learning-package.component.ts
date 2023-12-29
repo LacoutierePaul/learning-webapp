@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { LearningPackage } from '../app.component';
+import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {LearningPackage} from '../app.component';
 
 @Component({
   selector: 'app-modify-learning-package',
@@ -13,7 +13,8 @@ export class ModifyLearningPackageComponent implements OnInit {
   learningPackages: LearningPackage[] = [];
   selectedPackageId: number = 0;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+  }
 
   ngOnInit() {
     this.fetchLearningPackages();
@@ -41,7 +42,7 @@ export class ModifyLearningPackageComponent implements OnInit {
       this.httpClient.put<LearningPackage>(`/api/learningPackage`, this.modifiedPackage).subscribe({
         next: (response) => {
           console.log('Package modified successfully', response);
-          // Additional success handling
+          this.resetPackageForm();
         },
         error: (error) => console.error('Error modifying package', error)
       });
