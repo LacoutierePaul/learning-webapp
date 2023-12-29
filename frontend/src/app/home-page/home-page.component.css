@@ -1,5 +1,41 @@
-ngb-carousel {
-  max-width: 900px;
-  margin: 50px ;
+.home-carousel {
+  position: relative;
+  height: 90vh;
+  overflow: hidden;
 }
 
+.carousel-slide {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.carousel-slide img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the whole area */
+  opacity: 0.7; /* Slightly transparent to make text more readable */
+}
+
+.carousel-caption {
+  position: relative;
+  z-index: 10; /* Ensures the text is above the image */
+  color: white; /* Text color */
+  max-width: 600px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for text */
+  border-radius: 8px;
+}
+
+.carousel-caption h3 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.carousel-caption p {
+  font-size: 1.2em;
+}

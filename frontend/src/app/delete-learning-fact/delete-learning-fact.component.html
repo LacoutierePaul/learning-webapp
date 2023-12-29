@@ -1,9 +1,12 @@
-<div>
-    <label for="factSelect">Select Fact:</label>
-    <select id="factSelect" [(ngModel)]="selectedFact">
-        <option *ngFor="let fact of facts" [ngValue]="fact">
-            {{ fact.factQuestion }}
-        </option>
-    </select>
-    <button (click)="deleteFact()" [disabled]="!selectedFact">Delete Selected Fact</button>
+<div class="delete-container">
+    <div class="form-group">
+        <label for="factSelect">Select Fact to Delete:</label>
+        <select id="factSelect" class="form-control" [(ngModel)]="selectedFact">
+            <option value="" disabled>Select a Fact</option>
+            <option *ngFor="let fact of facts" [ngValue]="fact">
+                {{ fact.factQuestion }}
+            </option>
+        </select>
+    </div>
+    <button class="btn-delete" (click)="deleteFact()" [disabled]="!selectedFact">Delete Fact</button>
 </div>
