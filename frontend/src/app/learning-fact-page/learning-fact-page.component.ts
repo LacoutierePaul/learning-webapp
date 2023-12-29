@@ -303,6 +303,7 @@ export class LearningFactPageComponent implements OnInit, OnDestroy {
     this.httpClient.get(`/api/updateLearningPackage/${this.learningPackage.packageId}`).subscribe({
       next: (res: LearningPackage | any) => {
         this.learningPackage = res;
+        this.getFacts();
       },
       error: (err) => {
         console.error(`Failed to fetch data for package ID ${this.learningPackage.packageId}`, err);
