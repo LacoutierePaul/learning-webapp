@@ -82,12 +82,12 @@ statisticsRoutes.delete("/api/statistic/:idPackage", async (req: Request, res: R
         const id = +req.params.idPackage;
 
         let stat = await Statistics.findOne({
-            where: { packageId: id }
+            where: {packageId: id}
         });
 
         if (stat) {
             await stat.destroy();
-            res.status(200).send('The statistic has been deleted');
+            res.status(200).send({statusMessage: 'The statistic has been deleted'});
         } else {
             res.status(404).send(`Statistic not found for package ID: ${id}`);
         }
