@@ -1,9 +1,12 @@
-<div>
-    <label for="packageSelect">Select Package:</label>
-    <select id="packageSelect" [(ngModel)]="selectedPackageId">
-        <option *ngFor="let package of packages" [ngValue]="package.packageId">
-            {{ package.packageName }}
-        </option>
-    </select>
-    <button (click)="deletePackage()" [disabled]="selectedPackageId === null">Delete Selected Package</button>
+<div class="delete-container">
+    <div class="form-group">
+        <label for="packageSelect">Select Package to Delete:</label>
+        <select id="packageSelect" class="form-control" [(ngModel)]="selectedPackageId">
+            <option value="" disabled>Select a Package</option>
+            <option *ngFor="let package of packages" [ngValue]="package.packageId">
+                {{ package.packageName }}
+            </option>
+        </select>
+    </div>
+    <button class="btn-delete" (click)="deletePackage()" [disabled]="selectedPackageId === null">Delete Package</button>
 </div>
