@@ -38,7 +38,7 @@ He can do different actions:
 - start reviewing some facts 
 - see all facts from the course.
 
-#### HOW IT WORKS? 
+#### HOW IT WORKS
 Once the user starts a course for the first time, all the facts of the course are in "Learning Status".
 When a "Learning Status" fact is shown, the user can say :
 - to review : it will be shown again the next time the user presses the "Start learning" button.
