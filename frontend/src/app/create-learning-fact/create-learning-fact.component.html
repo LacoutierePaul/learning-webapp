@@ -1,0 +1,33 @@
+<div class="create-fact-form">
+  <h2>Create New Learning Fact</h2>
+  <form (ngSubmit)="createFact()">
+
+    <!-- Fact Question Input -->
+    <div class="form-group">
+      <label for="factQuestion">Fact Question:</label>
+      <input type="text" id="factQuestion" class="form-control"
+             [(ngModel)]="newFact.factQuestion" name="factQuestion" required>
+    </div>
+
+    <!-- Fact Answer Input -->
+    <div class="form-group">
+      <label for="factAnswer">Fact Answer:</label>
+      <input type="text" id="factAnswer" class="form-control"
+             [(ngModel)]="newFact.factAnswer" name="factAnswer" required>
+    </div>
+
+    <div class="form-group">
+      <label for="packageSelect">Select Package:</label>
+      <select id="packageSelect" class="form-control"
+              [(ngModel)]="newFact.packageId" name="packageId" required>
+        <option *ngFor="let package of learningPackages" [ngValue]="package.packageId">
+          {{ package.packageName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Create Fact</button>
+  </form>
+</div>
+

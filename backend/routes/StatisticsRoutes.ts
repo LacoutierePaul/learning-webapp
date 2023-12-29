@@ -61,7 +61,7 @@ statisticsRoutes.post("/api/statistic", async (req: Request, res: Response) => {
 
 statisticsRoutes.put("/api/statistic/", async (req: Request, res: Response) => {
     try {
-        let id = +req.body.packageId
+        const id = +req.body.packageId;
         let stat: Statistics = await Statistics.findOne({
             where: {packageId: id}
         });
@@ -74,6 +74,25 @@ statisticsRoutes.put("/api/statistic/", async (req: Request, res: Response) => {
         }
     } catch (error) {
         res.status(500).send("Wrong id parameter format");
+    }
+});
+
+statisticsRoutes.delete("/api/statistic/:idPackage", async (req: Request, res: Response) => {
+    try {
+        const id = +req.params.idPackage;
+
+        let stat = await Statistics.findOne({
+            where: {packageId: id}
+        });
+
+        if (stat) {
+            await stat.destroy();
+            res.status(200).send({statusMessage: 'The statistic has been deleted'});
+        } else {
+            res.status(404).send(`Statistic not found for package ID: ${id}`);
+        }
+    } catch (error) {
+        res.status(500).send(error);
     }
 });
 

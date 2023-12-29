@@ -159,5 +159,22 @@ learningPackageRoutes.get("/api/allUpdatedLearningPackage", async (req: Request,
     }
 });
 
+learningPackageRoutes.delete("/api/learningPackage/:idPackage", async (req: Request, res: Response) => {
+    try {
+        const idPackage = +req.params.idPackage;
+
+        let learningPackage:LearningPackage=await LearningPackage.findOne({
+            where: {packageId:idPackage}});
+        if(learningPackage){
+            await learningPackage.destroy();
+            res.status(200).send({message: 'Package deleted'});
+        } else{
+            res.status(404).send({error: 'Package entity not found for this ID , package : ' + idPackage});
+        }
+
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
 export default learningPackageRoutes;

@@ -18,6 +18,12 @@ import {LearningFactPageComponent} from './learning-fact-page/learning-fact-page
 import {FormsModule} from "@angular/forms";
 import {StatisticsPageComponent} from "./statistics-page/statistics-page.component";
 import {HighchartsChartModule} from "highcharts-angular";
+import { CreatePackageCardComponent } from './create-package-card/create-package-card.component';
+import { CreateLearningFactComponent } from './create-learning-fact/create-learning-fact.component';
+import { ModifyLearningFactComponent } from './modify-learning-fact/modify-learning-fact.component';
+import { ModifyLearningPackageComponent } from './modify-learning-package/modify-learning-package.component';
+import { DeleteLearningFactComponent } from './delete-learning-fact/delete-learning-fact.component';
+import { DeleteLearningPackageComponent } from './delete-learning-package/delete-learning-package.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +33,13 @@ import {HighchartsChartModule} from "highcharts-angular";
     HomePageComponent,
     LearningPackageCardComponent,
     LearningFactPageComponent,
-    StatisticsPageComponent
+    StatisticsPageComponent,
+    CreatePackageCardComponent,
+    CreateLearningFactComponent,
+    ModifyLearningFactComponent,
+    ModifyLearningPackageComponent,
+    DeleteLearningFactComponent,
+    DeleteLearningPackageComponent
   ],
   imports: [
     BrowserModule,
