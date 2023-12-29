@@ -17,13 +17,13 @@ Working on the user lesson memory using flashcards.
 
 ## Description of the pages of the website 
 The website is working with a static menu at the top of the website pages.
-[PAGE 1 - home page]
+### PAGE 1 - Home page
+![image](https://github.com/mathiasbalian/learning-webapp/assets/107269689/e60d0f9f-010f-4520-8828-c7745c306ef9)
 
-On the home page, the user sees the different possibilities that he has: starting(or reviewing) a course he already selected or selecting a new course. 
+The home page is a simple page telling the user what he can do on this website.
 
 ### PAGE 2 - Browse packages
-![image](https://github.com/mathiasbalian/learning-webapp/assets/107269689/ce392647-d128-46b9-ae65-2636a282d8b8)
-
+![image](https://github.com/mathiasbalian/learning-webapp/assets/107269689/2898a72f-78f1-4b18-8b8c-8522572778b1)
 
 On the browse packages page, the user is able to see all his selected courses (title, progression...), and add them as favorite if he wants to. 
 He can also filter on his favorite courses only. 
@@ -57,6 +57,7 @@ When a "Revision Status" fact is shown, the user can say :
 
 
 ### PAGE 4 - Statistics
+![image](https://github.com/mathiasbalian/learning-webapp/assets/107269689/53da85ed-22b8-4b8a-a538-4396b4d357a2)
 
 On the statistics page, the user can see his state of condidence on the answers he gave while studying his course, for all courses in progress.  
 He can also see the evolution of the time spent by session on a specific course in progress over time. 
