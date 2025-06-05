@@ -1,4 +1,4 @@
-#  Learning WebApp (Anki like app)
+#  🧠 Learning WebApp (Anki like app) 🧠
 
 <p align="center">
   <img src="https://img.shields.io/badge/frontend-Angular-orange?logo=angular&logoColor=white&style=flat-square">
@@ -9,20 +9,20 @@
 
 ---
 
-# Description of the website
-## Purpose of the application: 
+## 📖 Description of the website
+### 🎯P urpose of the application: 
 Working on the user lesson memory using flashcards.
 
-## Main features:
-- [x]  Create/modify/delete a course
-- [x]  Create/modify/delete a flashcard
-- [x]  Select a course as Favorite 
-- [x]  Work on a course (start/review)
-- [x]  See course details (all questions/statistics)
-- [x]  See general statistics 
+### ✨ Main features:
+- ✅ Create/modify/delete a course
+- ✅ Create/modify/delete a flashcard
+- ✅ Select a course as Favorite 
+- ✅ Work on a course (start/review)
+- ✅ See course details (questions/statistics)
+- ✅ See general statistics
 
 
-## Description of the pages of the website 
+## 🗂 Description of the pages of the website 
 The website is working with a static menu at the top of the website pages.
 ### PAGE 1 - Home page
 ![image](https://github.com/mathiasbalian/learning-webapp/assets/107269689/e60d0f9f-010f-4520-8828-c7745c306ef9)
@@ -107,15 +107,26 @@ To delete a course, the user has to select the course he wants to delete and cli
 
 To delete a fact, the user has to select the fact he wants to delete and click the button.
 
-## Used technologies 
-- Front-End: Angular, Typescript, ng-Bootstrap, Angular material, HighCharts.
-- Back-End: Node.js, TypeScript, Express + PostgreSQL with Sequelize
+## 🛠️ Used technologies 
+**Frontend**  
+- Angular  
+- TypeScript  
+- ng-Bootstrap  
+- Angular Material  
+- HighCharts  
+
+**Backend**  
+- Node.js  
+- TypeScript  
+- Express  
+- PostgreSQL (via Sequelize)
 
 
-# Conclusion 
+
+## ✅ Conclusion 
 The website is operational.
 
-# Contacts / Authors
+## 👥Contacts / Authors
 - [Mathias BALIAN]
 - [Paul LACOUTIERE]
 - [Hector MELL MARIOLLE]
