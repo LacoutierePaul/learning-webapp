@@ -1,6 +1,13 @@
-Node & React Project - Learning WebApp
-=====================
+# Node & React Project - Learning WebApp
 
+<p align="center">
+  <img src="https://img.shields.io/badge/frontend-Angular-orange?logo=angular&logoColor=white&style=flat-square">
+  <img src="https://img.shields.io/badge/backend-Node.js-green?logo=node.js&logoColor=white&style=flat-square">
+  <img src="https://img.shields.io/badge/database-PostgreSQL-blue?logo=postgresql&logoColor=white&style=flat-square">
+  <img src="https://img.shields.io/badge/language-TypeScript-3178c6?logo=typescript&logoColor=white&style=flat-square">
+</p>
+
+---
 
 # Description of the website
 ## Purpose of the application: 
