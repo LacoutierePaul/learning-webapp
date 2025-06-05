@@ -1,4 +1,4 @@
-# Node & React Project - Learning WebApp
+#  Learning WebApp (Anki like app)
 
 <p align="center">
   <img src="https://img.shields.io/badge/frontend-Angular-orange?logo=angular&logoColor=white&style=flat-square">
