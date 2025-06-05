@@ -8,9 +8,12 @@
 </p>
 
 ---
+## How to run the project
+
+See the [Build file](./BUILD.md)
 
 ## 📖 Description of the website
-### 🎯P urpose of the application: 
+### 🎯Purpose of the application: 
 Working on the user lesson memory using flashcards.
 
 ### ✨ Main features:
