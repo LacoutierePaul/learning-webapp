@@ -130,7 +130,7 @@ To delete a fact, the user has to select the fact he wants to delete and click t
 The website is operational.
 
 ## 👥Contacts / Authors
-- [Mathias BALIAN]
-- [Paul LACOUTIERE]
-- [Hector MELL MARIOLLE]
-- [Lucie GALLOIS]
+- Mathias BALIAN
+- Paul LACOUTIERE
+- Hector MELL MARIOLLE
+- Lucie GALLOIS
